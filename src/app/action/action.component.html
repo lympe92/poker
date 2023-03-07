@@ -1,0 +1,193 @@
+<div class="container text-center margin-top d-grid">
+    <!-- TOP -->
+    <div class="d-flex justify-content-evenly">
+     <!-- Player  CPU-3--> 
+     <div class=" col-2 row justify-content-center">
+      <div *ngIf="!!players[3]">
+        <div class="d-flex col-10 justify-content-center align-self-center">
+          <img src="{{this.cardsService.playerCards[players[3].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+        <img src="{{this.cardsService.playerCards[players.length+players[3].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+      </div>
+        <div class="card card-body">
+          <h6 class="card-title">{{players[3].name}}</h6>
+          <p class="card-text">{{players[3].chips}}</p>
+        </div>
+    </div>
+    </div>
+    <!-- Player End -->
+     <!-- Player  CPU-4--> 
+     <div class=" col-2 row justify-content-center">
+      <div *ngIf="!!players[4]"> 
+        <div class="d-flex col-10 justify-content-center align-self-center">
+          <img src="{{this.cardsService.playerCards[players[4].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+          <img src="{{this.cardsService.playerCards[players.length+players[4].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+      </div>
+        <div class="card card-body">
+          <h6 class="card-title">{{players[3].isActivePlayer}}</h6>
+          <p class="card-text">{{players[4].chips}}</p>
+        </div>
+     </div>
+    </div>
+    <!-- Player End -->
+    </div>
+     <!-- MIDDLE -->
+     <div class="d-flex justify-content-center align-self-center">
+     <!-- Player CPU-2--> 
+     <div class=" col-2 row justify-content-center">
+      <div *ngIf="!!players[2]">
+        <div class="d-flex col-10 justify-content-center align-self-center">
+          <img src="{{this.cardsService.playerCards[players[2].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+          <img src="{{this.cardsService.playerCards[players.length+players[2].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+       </div>
+        <div class="card card-body">
+          <h6 class="card-title">{{players[2].name}}</h6>
+          <p class="card-text">{{players[2].chips}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Player End -->
+    <div class="col-8  row align-self-center  d-flex justify-content-center">
+      <div class="col-5 justify-content-end d-flex">
+        <img src="{{this.cardsService.tableCards[0].img}}" class="card-img-top" alt="">
+        <img src="{{this.cardsService.tableCards[1].img}}" class="card-img-top" style="margin:0 1%" alt="">
+        <img src="{{this.cardsService.tableCards[2].img}}" class="card-img-top" alt="">
+      </div>
+      <div class="col-2 justify-content-center d-flex">
+        <img src="{{this.cardsService.tableCards[3].img}}" class="card-img-top" alt="">
+      </div>
+      <div class="col-2 justify-content-start d-flex">
+        <img src="{{this.cardsService.tableCards[4].img}}" class="card-img-top" alt="">
+      </div>
+    </div>
+    <!-- Player CPU-5--> 
+    <div class=" col-2 row justify-content-center">
+      <div *ngIf="!!players[5]">
+        <div class="d-flex col-10 justify-content-center align-self-center">
+          <img src="{{this.cardsService.playerCards[players[5].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+          <img src="{{this.cardsService.playerCards[players.length+players[5].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+       </div>
+        <div class="card card-body">
+          <h6 class="card-title">{{players[5].name}}</h6>
+          <p class="card-text">{{players[5].chips}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Player End CPU-5-->
+    </div>   
+    <!-- BOTTOM -->
+    <div class="row justify-content-center justify-content-evenly">   
+      <!-- Player Me--> 
+  <div class=" col-2 row justify-content-center">
+    <div class="d-flex col-10 justify-content-center align-self-center">
+      <img src="{{this.cardsService.playerCards[players[1].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+      <img src="{{this.cardsService.playerCards[players.length+players[1].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+    </div>
+    <div class="card card-body" *ngIf="players[0].isActivePlayer">
+      <h6 class="card-title">{{players[1].name}}</h6>
+      <p class="card-text">{{players[1].chips}}</p>
+    </div>
+  </div>
+  <!-- Player End Me-->
+      <!-- Player CPU-1--> 
+    <div class=" col-2 row justify-content-center">
+      <div class="d-flex col-10 justify-content-center align-self-center">
+        <img src="{{this.cardsService.playerCards[players[0].id].img}}" class="card-img-top" style="width: 50%;" alt="...">
+        <img src="{{this.cardsService.playerCards[players.length+players[0].id].img}}" class="card-img-top" style="width: 50%; margin-left: -20%;" alt="...">
+      </div>
+      <div class="card card-body">
+        <h6 class="card-title">{{players[0].name}}</h6>
+        <p class="card-text">{{players[0].chips}}</p>
+      </div>
+    </div>
+    <!-- Player End CPU-1 -->
+    </div>  
+  </div>
+<div class="footer d-flex">  
+    <div class="col-6 d-flex">
+        <div class="col-6">
+            <button class="btn btn-success" (click)=onClick()>Change</button>
+            <h6> isActivePlayer {{activedashboard}}</h6>
+            <h6> isActivePlayer {{players[1].isActivePlayer}}</h6>
+            <h6> Chips {{players[1].chips}}</h6>
+            <h6>bettingAmount {{players[1].bettingAmount}}</h6> 
+            <h6>pot: {{this.gamePlay.pot}}</h6>
+            <h6>1 bettingAmount: {{players[0].bettingAmount}}</h6>
+        </div>
+        <div class="col-6">
+            <h6>1 temporaryBetting: {{this.player.players[0].temporaryBetting}}</h6>
+            <h6>0 chips: {{players[0].chips}}</h6>
+            <h6>TemporaryRaise: {{this.onRaiseNum}}</h6>
+            <h6>1 bettingAmount: {{players[1].bettingAmount}}</h6>
+            <h6>1 temporaryBetting: {{players[1].temporaryBetting}}</h6>
+        </div>
+    </div>
+     <div class="col-6" *ngIf="players[1].isActivePlayer">
+        <div class="col-12 justify-content-end d-flex">
+            <div class="text-center col-8 ">
+                <div class="row row-cols-2 row-cols-4 g-2 g-1">
+                    <div class="col">
+                        <button class="btn btn-success p-2 col-12" type="button" >Min</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success p-2 col-12" type="button" >3 BB</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success p-2 col-12" type="button" >Pot</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success p-2 col-12" type="button" >Max</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+            <div class="raiseBar col-10">
+            <input type="range" class="form-range" min="{{player.temporaryRaise}}" max="{{players[1].chips}}" [(ngModel)]="this.onRaiseNum" step="{{this.player.bigBlind}}" id="customRange3">
+         </div>
+
+    </div>
+    <div class="col-12 justify-content-end d-flex">
+        <div class="text-center col-12 ">
+            <div class="row row-cols-2 row-cols-3 g-2 g-1">
+                
+                <div class="col">
+                    <button class="btn btn-success btn-lg  p-2 col-12" type="button" (click)="onFold()"><h1>Fold</h1></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success btn-lg p-2 col-12" type="button" (click)="onCall()"><h1>Call</h1></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success btn-lg p-2 col-12" type="button" (click)="onRaise(this.player.temporaryRaise)"><h1>Raise</h1></button>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    <div class="col-12 d-flex justify-content-end">
+       
+    
+       
+    </div>
+</div>
+
+
+    <!-- <div class="col-6">
+        <div class="col-10">
+            <button class="btn btn-success col-2" type="button" >Call</button>
+            <button class="btn btn-success col-2" type="button" >Call</button>
+            <button class="btn btn-success col-2" type="button" >Call</button>
+            <button class="btn btn-success col-2" type="button" >Call</button>
+        </div>
+
+        
+        <div class="col-12">
+            <button class="btn btn-success btn-lg col-3" type="button" (click)="onFold()"><h1>Fold</h1></button>
+        <button class="btn btn-success btn-lg col-3" type="button" (click)="onCall()"><h1>Call</h1></button>
+        <button class="btn btn-success btn-lg col-3" type="button" (click)="onRaise(this.gamePlay.temporaryRaise)"><h1>Raise</h1></button>
+        </div>
+    </div> -->
+</div>
+
+
+
+

@@ -1,0 +1,29 @@
+.footer{
+    margin:1%;
+
+}
+.raiseBar{
+    width:50% !important;
+}
+
+.container{
+    height:74vh;
+    background-image: url("src/assets/images/poker-table.png");
+    background-position-x: center; 
+    background-position-y: center; 
+    background-repeat: no-repeat;
+    background-size: cover;    
+    background-size: 80% 80%;
+    
+}
+.margin-top{
+    margin: 2% auto;
+}
+.card{
+    border: #c0765d solid 3px;
+    border-radius: 15px;
+    color:#e4dabb;
+    background-color: #3f473a;
+    margin-top: -50px;
+    height: 80px;
+}

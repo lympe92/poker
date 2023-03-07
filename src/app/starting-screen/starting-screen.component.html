@@ -1,0 +1,22 @@
+<div class="container text-center">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-8 form-background">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit(refplayers.value, refstake.value, refchips.value, reftime.value)">
+          <label for="customRange2" class="form-label"><h3>Players : <output id="players">2</output></h3></label>
+          <input formControlName="players" type="range" class="form-range" min="2"  max="6" oninput="players.value = this.value" id="customRange2" #refplayers>
+  
+          <label for="customRange2" class="form-label"><h3>Stake : <output id="Stake">20</output></h3></label>
+          <input formControlName="stake" type="range" class="form-range" min="20"  max="200"  step="20" oninput="Stake.value = this.value" id="customRange2" #refstake>
+        
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"><h3>Chips : <output id="Chips">1000</output></h3></label>
+            <input formControlName="chips" type="email" class="form-control" id="exampleFormControlInput1" oninput="Chips.value = this.value" placeholder="1000" #refchips>
+          </div>
+        
+          <label for="customRange3" class="form-label"><h3>Decision Time (seconds) : <output id="Decision">10</output></h3></label>
+          <input formControlName="time" type="range" class="form-range" min="10"  max="60" step="1" id="customRange3" oninput="Decision.value = this.value" #reftime>
+          <button class="btn btn-dark">Start Game</button>
+        </form>
+      </div>  
+    </div>
+  </div>
