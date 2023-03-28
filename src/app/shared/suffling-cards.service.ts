@@ -10,52 +10,39 @@ export class SufflingCardsService {
 
   arrayLength:number=52;
 
-  sufflingCards(): void{
-    this.cardsService.playerCards.forEach(x => {
+  sufflingCards(playerCards:any,cards:any,playersNum:number){
+    for(let i=0;i<playersNum*2;i++){
       let j=Math.floor(Math.random() * this.arrayLength);
-      x.name=this.cardsService.cards[j].name;
-      x.cardId=this.cardsService.cards[j].cardId;
-      x.shape=this.cardsService.cards[j].shape;
-      x.available=this.cardsService.cards[j].available;
-      x.img=this.cardsService.cards[j].img;
-      this.cardsService.cards.splice(j,1);
-      this.arrayLength=this.cardsService.cards.length;
-    });
-    
-  }
-
-  sufflingFlop(){
-    for (let i = 0; i < 3; i++) {
-      let j=Math.floor(Math.random() * this.arrayLength);
-      this.cardsService.tableCards[i].name=this.cardsService.cards[j].name;
-      this.cardsService.tableCards[i].cardId=this.cardsService.cards[j].cardId;
-      this.cardsService.tableCards[i].shape=this.cardsService.cards[j].shape;
-      this.cardsService.tableCards[i].available=this.cardsService.cards[j].available;
-      this.cardsService.tableCards[i].img=this.cardsService.cards[j].img;     
-      this.cardsService.cards.splice(j,1);
-      this.arrayLength=this.cardsService.cards.length;
+      playerCards.push(cards[j]);
+      cards.splice(j,1);
+      this.arrayLength=cards.length; 
     }
   }
 
-  sufflingTurn(){
+  sufflingFlop(tableCards:any,cards:any){
+    console.log("sufflingFlop");
+    for (let i = 0; i < 3; i++) {
       let j=Math.floor(Math.random() * this.arrayLength);
-      this.cardsService.tableCards[3].name=this.cardsService.cards[j].name;
-      this.cardsService.tableCards[3].cardId=this.cardsService.cards[j].cardId;
-      this.cardsService.tableCards[3].shape=this.cardsService.cards[j].shape;
-      this.cardsService.tableCards[3].available=this.cardsService.cards[j].available;
-      this.cardsService.tableCards[3].img=this.cardsService.cards[j].img;     
-      this.cardsService.cards.splice(j,1);
-      this.arrayLength=this.cardsService.cards.length;
+      tableCards.push(cards[j]);  
+      cards.splice(j,1);
+      this.arrayLength=cards.length;
+    }
   }
-  sufflingRiver(){
+
+  sufflingTurn(tableCards:any,cards:any){
+    console.log("sufflingTurn");
+      let j=Math.floor(Math.random() * this.arrayLength);
+      tableCards.push(cards[j]);  
+      cards.splice(j,1);
+      this.arrayLength=cards.length;
+  }
+
+  sufflingRiver(tableCards:any,cards:any){
+    console.log("sufflingRiver");
     let j=Math.floor(Math.random() * this.arrayLength);
-    this.cardsService.tableCards[4].name=this.cardsService.cards[j].name;
-    this.cardsService.tableCards[4].cardId=this.cardsService.cards[j].cardId;
-    this.cardsService.tableCards[4].shape=this.cardsService.cards[j].shape;
-    this.cardsService.tableCards[4].available=this.cardsService.cards[j].available;
-    this.cardsService.tableCards[4].img=this.cardsService.cards[j].img;     
-    this.cardsService.cards.splice(j,1);
-    this.arrayLength=this.cardsService.cards.length;
+    tableCards.push(cards[j]);  
+      cards.splice(j,1);
+      this.arrayLength=cards.length;
   }
 
 }

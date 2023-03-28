@@ -1,8 +1,10 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { delay, interval, of, Subscription, tap } from 'rxjs';
+import { ChangeDetectorRef, Component,OnInit } from '@angular/core';
+import { interval, map, merge, Observable, of, Subject } from 'rxjs';
+import { card } from '../shared/card';
 import { CardsService } from '../shared/cards.service';
 import { CpuPlayerDecisionsService } from '../shared/cpu-player-decisions.service';
 import { GamePlayService } from '../shared/game-play.service';
+import { player } from '../shared/generate-players';
 import { playersService } from '../shared/players.service';
 import { SufflingCardsService } from '../shared/suffling-cards.service';
 
@@ -13,124 +15,295 @@ import { SufflingCardsService } from '../shared/suffling-cards.service';
 })
 export class ActionComponent implements OnInit{
 
-  constructor(public gamePlay:GamePlayService,private cpu:CpuPlayerDecisionsService, public player:playersService,public sufflingCards:SufflingCardsService,public cardsService:CardsService,private cd: ChangeDetectorRef){
-    
+  constructor(public gamePlay:GamePlayService,private cpu:CpuPlayerDecisionsService, public player:playersService,public sufflingCards:SufflingCardsService,public cardsService:CardsService,private cd: ChangeDetectorRef){ 
   }
-  onRaiseNum=0;
-  players:any=[];
-  noneIsActive=true;
-  gameStatus='preFlop';
-  activedashboard():boolean {return this.player.players[1].isActivePlayer; }
-  
-  onClick(){
-    this.nextPlayer();
-  }
+  onRaiseNum:number=0;
+  players!:player[];
+  winners!:player[];
+  cards:any[]=[];
+  playerCards:card[]=[];
+  tableCards:card[]=[];
+  pot:number=0;
+  gameStatus:string='preFlop';
+  playersPortionBetting!:number;
+  bigBlind!:number;
+  smallBlind!:number;
+  decisionTime!:number;
+  numberOfPlayers!:number;
+  chips!:number;
+  hasChips:boolean=true;
+
   ngOnInit(): void {
-    
-    this.players=this.player.getPlayers();
-    this.player.generatePlayers();
-    this.cardsService.startgame();
-    this.sufflingCards.sufflingCards();
-    this.nextPlayer();  
+    this.playersPortionBetting=+this.cardsService.sendValues(1);
+    this.bigBlind=+this.cardsService.sendValues(1);
+    this.smallBlind=+(this.cardsService.sendValues(1)/2);
+    this.decisionTime=+this.cardsService.sendValues(3);
+    this.numberOfPlayers=+this.cardsService.sendValues(0);
+    this.chips=+this.cardsService.sendValues(2);
+    this.cards=this.cardsService.cardsFunction();
+    this.playerCards=this.cardsService.playerCardsFunction();
+    this.players=this.player.generatePlayers(this.numberOfPlayers,this.bigBlind,this.smallBlind,this.chips);
+    this.sufflingCards.sufflingCards(this.playerCards,this.cards,this.players.length);
+    this.toCallDesicions();
   }
 
- 
 
   onFold(){
-    console.log("fold");
-    this.players[1].toSpeak=false;
-    this.players[1].chips-=this.players[1].bettingAmount;
-    this.nextPlayer();
+    console.log("onFold");
+    
+    this.players[0].chips-=this.players[1].bettingAmount;
+    this.players[0].inPortion=false;
+    console.log("apo edo 1")
+    this.changePlayer(0);
+    
   }
 
   onCall(){
-    console.log("call");
-    this.players[1].toSpeak=false;
-    this.players[1].temporaryBetting=this.player.chipsToCall;
-    this.nextPlayer();
+    console.log("onCall");
+   // console.log("callCalcChips")
+
+   let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
+   this.players[0].temporaryBetting=this.playersPortionBetting;
+   this.players[0].bettingAmount+=this.playersPortionBetting;
+   this.players[0].chips-=chipsToCall;
+   console.log("apo edo 2")
+    this.changePlayer(0);
   }
 
   onRaise(ref:any){
-    console.log("raise");
-    this.players[1].toSpeak=false;
-    this.players[1].temporaryBetting+=parseInt(ref);
-    this.nextPlayer();
+    console.log("onRaise");
+    this.players.forEach((x:any)=>x.toSpeak=true); 
+
+    let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
+   this.players[0].temporaryBetting=this.playersPortionBetting;
+   this.players[0].bettingAmount+=this.playersPortionBetting;
+   this.players[0].chips-=chipsToCall;
+   this.playersPortionBetting=parseInt(ref);
+   console.log("apo edo 3")
+   this.changePlayer(0);
+    
   }
 
-
-  nextPlayer(){
-  
-    let activePLayerNumber!:number;
+  playersToSpeak(){
+    // console.log("playersToSpeak");
+    let i:number=0;
     this.players.find((x:any)=>{
-      if(x.isActivePlayer){
-        x.isActivePlayer=false;
-        activePLayerNumber=x.number;  
+      if(x.toSpeak && x.inPortion){
+        i+=1;
       }
     });
-    this.changeActivePlayer(activePLayerNumber);
+    return i;
   }
-  changeActivePlayer(activePLayerNumber:number){
-      
-    if(activePLayerNumber!==0){
-      setTimeout(()=>{
-        this.cpPlayer(activePLayerNumber);
-      },Math.floor(Math.random()*500*this.player.decisionTime));
-    }
-    
-    if(activePLayerNumber==0){
-      this.players[1].isActivePlayer=true;
-    }        
-}
 
-
-cpPlayer(activePLayerNumber:number){
- 
-  if((activePLayerNumber+1)==(this.players.length)){
-    this.players[0].isActivePlayer=true;
-    this.players[0].toSpeak=false;
-    this.cpu.decision(0);
+  playersInPortion(){
+    // console.log("playersInPortion");
+    let i:number=0;
+    this.players.forEach((x:any)=>{
+      if(x.inPortion){
+        i+=1;
+      }
+    })
+    return i;
   }
-  if((activePLayerNumber+1)!==(this.players.length) &&(activePLayerNumber+1)!==1){
-    this.players[(activePLayerNumber+1)].isActivePlayer=true;
-    this.players[(activePLayerNumber+1)].toSpeak=false;
-     
-    this.cpu.decision(activePLayerNumber+1);
+
+  playersWithChipsInPortion(){
+    let i:number=0;
+    this.players.forEach((x:any)=>{
+      if(x.inPortion && x.chips>0){
+        i+=1;
+      }
+    })
+    return i;
+
   }
-  // this.checkStatus();
-  this.nextPlayer();
 
-}
+  whoIsActive(){
+    // console.log("whoIsActive");
+    let i!:number;
+    this.players.find((x:any)=>{
+      if(x.isActivePlayer && x.inPortion){
+        i=x.number;
+      }
+    });
+    return i;
+  }
 
-  // checkStatus(){ 
-  //   this.noneIsActive=true;
-  //   this.players.forEach((x:any)=>{
-  //     if(x.toSpeak){
-  //       this.noneIsActive=false;
-  //       console.log("x");
-  //       console.log(x);
-  //     }
-  //   });
-  //   console.log(this.noneIsActive);
-  //   console.log(this.gameStatus);
-  //   if(this.noneIsActive && this.gameStatus=='preFlop'){
-  //     this.noneIsActive=!this.noneIsActive;
-  //     this.sufflingCards.sufflingFlop();
-  //      this.gameStatus='flop';
-  //   }
-  //   if(this.noneIsActive && this.gameStatus=='flop'){
-  //     this.noneIsActive=!this.noneIsActive;
-  //     this.sufflingCards.sufflingTurn();
-  //      this.gameStatus='turn'; 
-  //   }
-  //   if(this.noneIsActive && this.gameStatus=='turn'){
-  //     this.noneIsActive=!this.noneIsActive;
-  //     this.sufflingCards.sufflingRiver();
-  //      this.gameStatus='river';
-  //   }
-  //   this.players.forEach((x:any)=>{
-  //     x.toSpeak=true;
-  //     })
-    
-  // }
+  setDelay(){
+    // console.log("setDelay");
+    return Math.floor(Math.random()*this.decisionTime*500);
+  }
   
+
+  decisions(){
+    console.log("START NEX");
+    // finds who is the active player
+    let activePLayer:number= this.whoIsActive();
+    console.log("ACTIVE PLAYER",activePLayer)
+  
+    
+    if(activePLayer!==0){
+      let status=this.cpu.decision(this.players[activePLayer].chips,this.playersPortionBetting,this.bigBlind);
+      this.playersPortionBetting= +this.cpu.calcBetting(status,this.playersPortionBetting,this.bigBlind);
+      this.players=this.cpu.calcPlayer(this.players,activePLayer,status,this.playersPortionBetting);
+      console.log("apo edo 4")
+      this.changePlayer(activePLayer);
+    }
+  }
+
+  toCallDesicions(){
+    setTimeout(()=> this.decisions(),this.setDelay());
+  }
+
+  changePlayer(activePLayerNumber:number){
+    // deactivates current player and activates the next
+    this.deactivatePlayer(activePLayerNumber);
+    this.activatePlayer(this.nextPlayer(activePLayerNumber),this.playersToSpeak()); 
+    this.toCheckStatus(); 
+  }
+  
+  toCheckStatus(){
+    console.log("toCheckStatus")
+    let noneToSpeak:Boolean=true;
+    this.players.forEach((x:any)=>{
+      if(x.toSpeak && x.inPortion){
+        noneToSpeak= false; 
+      }  
+    });
+    if(this.playersInPortion()==1){
+      this.findWinners();
+      return;
+    }
+
+    if(this.playersWithChipsInPortion()<=1){
+      this.sumUpPot();
+      
+      do{
+        this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
+        if(this.gameStatus=="flop"){
+          this.sufflingCards.sufflingFlop(this.tableCards,this.cards);
+        }
+        if(this.gameStatus=="turn"){
+          this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
+        }
+        if(this.gameStatus=="river"){
+          this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
+        }
+        if(this.gameStatus=="checkings"){
+          console.log("checkings APO MPOURDELO")
+          this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
+          this.winners=this.gamePlay.isWinner(this.players);
+          console.log(this.winners)
+          this.players.forEach((x:player)=>{this.winners.forEach((y:any)=>{if(x==y){x.chips+=(this.pot/this.winners.length)}})})
+          console.log("perase")
+          this.nextGame();
+          return;
+        }
+          }while(this.gameStatus=="checkings");
+    }
+    // if someone want's to speak, calls the desicions again
+    if(!noneToSpeak){
+      console.log("toCall 1")
+      this.toCallDesicions();
+      return;
+    }
+    // if no player want's to speak it procceds to sumUp and next Card
+    if(noneToSpeak){
+      this.sumUpPot();
+      this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
+    if(this.gameStatus=="flop"){
+      this.sufflingCards.sufflingFlop(this.tableCards,this.cards);
+    }
+    if(this.gameStatus=="turn"){
+      this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
+    }
+    if(this.gameStatus=="river"){
+      this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
+    }
+    if(this.gameStatus=="checkings"){
+      console.log("checkings apo normal")
+      this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
+      this.findWinners();
+      return;
+    }
+    // to find the smallBlind and activate it for starting next round
+    this.gamePlay.findSmallBlind(this.players);
+    console.log("toCall 2")
+    this.toCallDesicions();
+    }
+  }
+
+
+  findWinners(){
+    this.winners=this.gamePlay.isWinner(this.players);
+    this.players.forEach((x:player)=>{this.winners.forEach((y:any)=>{if(x==y){x.chips+=(this.pot/this.winners.length)}})})
+    setTimeout(()=> this.nextGame(),3000);
+  }
+
+  OnIsWinner(number:number){
+    return this.winners.some((x:any)=>x==this.players[number])
+  }
+
+  deactivatePlayer(index:number){
+    this.players[index].isActivePlayer=false;
+    this.players[index].toSpeak=false;
+  }
+  nextPlayer(activePLayerNumber:number){
+    activePLayerNumber++;
+    if(activePLayerNumber>=this.players.length){
+      activePLayerNumber=0;
+    }  
+    return activePLayerNumber;
+  }
+  activatePlayer(index:number,playersToSpeak:number){
+
+    if(this.players[index].inPortion==false||this.players[index].chips==0){
+      this.activatePlayer(this.nextPlayer(index),this.playersToSpeak());
+      return;
+    }
+
+    if(playersToSpeak>=1){
+      this.players[index].isActivePlayer=true;
+    }
+     // hasChips property used for Dashboard at footer
+     if(this.players[0].chips<this.playersPortionBetting-this.players[0].temporaryBetting){
+      this.hasChips=false;
+    }
+  }
+    
+  calculateChips(activePLayerNumber:number){
+    let chip500;
+    let chip100;
+    let chip10:number;
+    chip500= Math.floor(this.players[activePLayerNumber].temporaryBetting/500);
+    chip100= Math.floor((this.players[activePLayerNumber].temporaryBetting%500)/100);
+    chip10= Math.floor((this.players[activePLayerNumber].temporaryBetting%500)%100/10);
+    return {chip10,chip100,chip500};
+  }
+
+  sumUpPot(){
+    this.players.forEach((x:player)=>{
+      this.pot+=x.temporaryBetting;
+      x.temporaryBetting=0;
+    })
+    this.playersPortionBetting=0;
+  }
+  nextGame(){
+    this.pot=0;
+    this.playerCards.length=0;
+    this.tableCards.length=0;
+    this.winners.length=0;
+    this.gameStatus='preFlop';
+    this.onRaiseNum=0;
+    this.playersPortionBetting=0;
+    console.log("edo eftase")
+    
+    console.log(this.players.length)
+
+    this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
+    this.cards=this.cardsService.cardsFunction();
+    this.playerCards=this.cardsService.playerCardsFunction();
+    this.sufflingCards.sufflingCards(this.playerCards,this.cards,this.players.length);
+    console.log("toCall 5")
+    this.toCallDesicions();
+  }
 }

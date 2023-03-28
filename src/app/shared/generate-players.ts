@@ -1,6 +1,3 @@
-
-
-
 export class player {
     public number:number;
     public name:string;
@@ -13,8 +10,12 @@ export class player {
     public bettingAmount:number;
     public temporaryBetting:number;
     public toSpeak:boolean;
+    public inPortion:boolean;
+    public bestHand:any;
 
-    constructor(number:number,name:string,id:number,chips:number,isDealer:boolean,isBigBlind:boolean,isSmallBlind:boolean,isActivePlayer:boolean,bettingAmount:number,temporaryBetting:number,toSpeak:boolean){
+    
+
+    constructor(number:number,name:string,id:number,chips:number,isDealer:boolean,isBigBlind:boolean,isSmallBlind:boolean,isActivePlayer:boolean,bettingAmount:number,temporaryBetting:number,toSpeak:boolean,inPortion:boolean,bestHand:any){
          this.number=number;
          this.name=name;
          this.id=id;
@@ -26,5 +27,7 @@ export class player {
          this.bettingAmount=bettingAmount;
          this.temporaryBetting=temporaryBetting;
          this.toSpeak=toSpeak;
+         this.inPortion=inPortion;
+         this.bestHand=bestHand;
     }   
 }

@@ -6,67 +6,111 @@ import { player } from "./generate-players";
   })
 
 export class playersService {
-  bigBlind:number=10;
-  smallBlind:number=this.bigBlind/2;
-  decisionTime:number=0;
-  numberOfPlayers:number=0;
-  dealerPlayer!:number;
+  
   smallBlindPlayer!:number;
   bigBlindPlayer!:number;
-  chipsToCall:number=0;
-
-  get temporaryRaise() {return this.bigBlind + this.players[0].temporaryBetting};
-  get isActivedashboard():boolean {return this.players[1].isActivePlayer};
-
-players=[{number:0,name:'Cpu Player 1',id:0,chips:0,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,bettingAmount:0,temporaryBetting:0,toSpeak:true},
-  {number:1,name:'Me',id:1,chips:0,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,bettingAmount:0,temporaryBetting:0,toSpeak:true},
-]; 
   
-getPlayers(){
-  return this.players;
-}
 
 
-generatePlayers(){
-    // generating Players
-     if(this.numberOfPlayers>2){
-      for(let i=2;i<this.numberOfPlayers;i++){
-        this.players.push(new player(i,'Cpu Player'+ [i],i,this.players[0].chips,false,false,false,false,0,0,true))
-}
+  
+  generatePlayers(numberOfPlayers:number,bigBlind:number,smallBlind:number,chips:number){
+    console.log("generatePlayers");
+   let players:player[]=[{number:0,name:'Cpu Player 1',id:0,chips:chips,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,bettingAmount:0,temporaryBetting:0,toSpeak:true,inPortion:true,bestHand:[]},
+    {number:1,name:'Me',id:1,chips:chips,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,bettingAmount:0,temporaryBetting:0,toSpeak:true,inPortion:true,bestHand:[]},
+  ]; 
+      // generating Players
+      if(numberOfPlayers>2){
+        for(let i=2;i<numberOfPlayers;i++){
+          players.push(new player(i,'Cpu Player'+ [i],i,chips,false,false,false,false,0,0,true,true,[]))
+        }
+      }
+
+      // desides who is the first dealer,small and big blind. These values appear at players id's. Id 0 is the dealer
+    let j=Math.floor(Math.random()*players.length);
+    players[j].isDealer=true;
+    let dealerPlayer=j;
+    j++;
+    if(j>players.length-1){
+      j=0;
     }
-    // desides who is the first dealer,small and big blind. These values appear at players id's. Id 0 is the dealer
-   let j=Math.floor(Math.random()*this.players.length);
-   this.players[j].isDealer=true;
-   this.dealerPlayer=j;
-   j++;
-   if(j>this.players.length-1){
-     j=0;
-   }
-   this.players[j].isSmallBlind=true;
-   this.smallBlindPlayer=j;
-   j++;
-   if(j>this.players.length-1){
-     j=0;
-   }
-   this.players[j].isBigBlind=true;
-   this.players[j].id=2;
-   j++;
-   if(j>this.players.length-1){
-     j=0;
-   }
-   this.players[j].isActivePlayer=true;
-   console.log(this.players[j].isActivePlayer);
-   console.log(this.players);
-   // gives player id's according to dealer
-   let k=this.dealerPlayer;
-   for(let i=0;i<this.players.length;i++){
-     if(k+i>this.players.length-1){
-       k=-i;
-     }
-     this.players[k + i].id=i;
-   }
-   console.log(this.players);
+    players[j].isSmallBlind=true;
+    players[j].temporaryBetting=+smallBlind;
+    players[j].chips-=players[j].temporaryBetting;
+    this.smallBlindPlayer=j;
+    j++;
+    if(j>players.length-1){
+      j=0;
+    }
+    players[j].isBigBlind=true;
+    players[j].temporaryBetting=+bigBlind;
+    players[j].chips-=players[j].temporaryBetting;
+    players[j].id=2;
+    j++;
+    if(j>players.length-1){
+      j=0;
+    }
+    players[j].isActivePlayer=true;
 
+    this.idDispenser(dealerPlayer,players);
+    return players;
+    }
 
+    idDispenser(dealerPlayer:number,players:any){
+      // gives player id's according to dealer
+      for(let i=0;i<players.length;i++){
+        if(dealerPlayer+i>players.length-1){
+          dealerPlayer=-i;
+        }
+        players[dealerPlayer + i].id=i;
+      }
+
+      for(let i=0;i<players.length;i++){
+        players[i].number=i;
+      }
+    }
+
+    nextPortBlinds(players:any,bigBlind:number,smallBlind:number,){
+  
+      let NoOfDealer:number= players.find((x:player)=>x.isDealer==true).number;
+
+      players.forEach((x:any)=>{if(x.chips==0){players.splice(x.number,1)}})
+
+      players.forEach((x:player)=> {x.inPortion=true; x.toSpeak=true; x.isActivePlayer=false;x.isDealer=false;x.isSmallBlind=false;x.isBigBlind=false;})
+      
+      if(NoOfDealer>players.length-1){
+        NoOfDealer=0;
+      }
+      NoOfDealer++;
+      console.log(NoOfDealer)
+      if(NoOfDealer>players.length-1){
+        NoOfDealer=0;
+      }
+      players[NoOfDealer].isDealer=true;
+      let dealerPlayer:number=NoOfDealer;
+      NoOfDealer++;
+      console.log(NoOfDealer)
+      if(NoOfDealer>players.length-1){
+        NoOfDealer=0;
+      }
+      players[NoOfDealer].isSmallBlind=true;
+      players[NoOfDealer].temporaryBetting=+smallBlind;
+      NoOfDealer++;
+      console.log(NoOfDealer)
+      if(NoOfDealer>players.length-1){
+        NoOfDealer=0;
+      }
+      players[NoOfDealer].isBigBlind=true;
+      players[NoOfDealer].temporaryBetting=+bigBlind;
+      NoOfDealer++;
+      console.log(NoOfDealer)
+      if(NoOfDealer>players.length-1){
+        NoOfDealer=0;
+      }
+      players[NoOfDealer].isActivePlayer=true;
+      this.idDispenser(dealerPlayer,players);
+      console.log(players);
+     
+      return players;
+     
+    }
   }
-}

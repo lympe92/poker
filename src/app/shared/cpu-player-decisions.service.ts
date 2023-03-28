@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { GamePlayService } from './game-play.service';
+import { player } from './generate-players';
 import { playersService } from './players.service';
 
 @Injectable({
@@ -6,48 +8,61 @@ import { playersService } from './players.service';
 })
 export class CpuPlayerDecisionsService {
   action:number=0;
-  constructor(private player:playersService) { }
+  constructor(private player:playersService,private gamePlay:GamePlayService) { }
 
+  calcBetting(status:string,playersPortionBetting:number,bigBlind:number){
+    if(status=="raise"){
+      playersPortionBetting+=bigBlind;
+    }
+    return playersPortionBetting;
+  }
 
-fold(x:number){
-  
-  console.log("fold");
-  this.player.players[x].toSpeak=false;
-  this.player.players[x].chips-=this.player.players[x].bettingAmount;
-}
+  calcPlayer(players:any,x:number,status:string,playersPortionBetting:number){
+    if(status=="fold")
+    {
+      console.log("fold");
+      players[x].inPortion=false;
+      players[x].toSpeak=false;
 
-call(x:number){
-  console.log("call");
-  this.player.players[x].toSpeak=false;
-  this.player.players[x].temporaryBetting=this.player.chipsToCall; 
-}
+    }
+    if(status=="call")
+    {
+      console.log("call");
 
-raise(x:number){
-  console.log("raise");
-  this.player.players[x].toSpeak=false;
-  this.player.players[x].temporaryBetting+=this.player.chipsToCall>0 ?this.player.chipsToCall*3 :this.player.bigBlind;
-  this.player.chipsToCall=this.player.players[x].temporaryBetting;
-}
+      let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
 
+      players[x].temporaryBetting=playersPortionBetting;
+      players[x].bettingAmount+=chipsToCall;
+      players[x].chips-=chipsToCall;
+    }
+    if(status=="raise")
+    {
+      console.log("raise");
+      let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
+      players[x].temporaryBetting=playersPortionBetting;
+      players[x].bettingAmount+=chipsToCall;
+      players[x].chips-=chipsToCall;
+      players.forEach((x:any)=>{if(x.inPortion){x.toSpeak=true}}); 
+    }
+    return players;
+  }
 
-decision(x:number){ 
-   console.log(this.player.players[x]);
-    this.action=Math.floor(Math.random()*2);
+  decision(chips:number,playersPortionBetting:number,bigBlind:number){ 
+    this.action=Math.round(Math.random()*2);
+    if(this.action==2 && !(chips>=playersPortionBetting+bigBlind)){
+      this.action=1;
+    }
+
     switch (this.action) {
       case 0:
-          this.fold(x);     
-        break;
+          return "fold";     
         case 1:
-          this.call(x);
-        break;
+          return "call";
         case 2:
-          this.raise(x);      
-        break;
+           return "raise";             
+        default:
+          return '';
     }
- 
-
- 
- 
 }
 
 }

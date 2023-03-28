@@ -1,13 +1,23 @@
 .footer{
-    margin:1%;
-
+    margin:0 1%;
+  
+}
+.table{
+    background-color: #c0765d;
+    border-radius: 15px;
 }
 .raiseBar{
     width:50% !important;
 }
-
+.desktop-footer{
+    display: flex;
+}
+.mobile-footer{
+    display: none;
+}
 .container{
-    height:74vh;
+    height:70vh;
+    width:auto;
     background-image: url("src/assets/images/poker-table.png");
     background-position-x: center; 
     background-position-y: center; 
@@ -16,14 +26,43 @@
     background-size: 80% 80%;
     
 }
+.img-table{
+    object-fit: contain;
+  
+}
 .margin-top{
     margin: 2% auto;
 }
-.card{
-    border: #c0765d solid 3px;
+.dealer{
+    position: relative;
+    width: calc(10px + 1vw);
+    bottom: -2vw;
+    left: -40px;
+}
+
+.card-body{
     border-radius: 15px;
     color:#e4dabb;
     background-color: #3f473a;
-    margin-top: -50px;
-    height: 80px;
+    margin-top: calc(-30px - 2vw);
+    height: calc(30px + 2vw);
+}
+.active{
+    border: #c0765d solid 3px;
+}
+.fold{
+    opacity: 0.5;
+}
+
+
+@media only screen and (max-width: 990px) {
+    .card-small{ 
+        width: 25%;
+
+    }
+    @media only screen and (max-width: 770px) {
+        .card-small{ 
+            width: 33.33%;
+        }
+    }
 }

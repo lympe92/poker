@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { CardsService } from '../shared/cards.service';
 import { GamePlayService } from '../shared/game-play.service';
 import { playersService } from '../shared/players.service';
@@ -24,15 +25,19 @@ export class StartingScreenComponent implements OnInit{
       'time': new FormControl(10)
     });
   }
+
   onSubmit(refplayers:any,refstake:any, refchips:any, reftime:any){
-    this.cards.startCards(+refplayers);
-    this.player.bigBlind= +refstake;
-    this.player.players[1].chips=+refchips;
-    this.player.players[0].chips=+refchips;
-    this.player.decisionTime= +reftime;
-    this.cards.players=+refplayers;
-    this.player.numberOfPlayers= +refplayers;
-    
+    // this.player.bigBlind= +refstake;
+    // this.player.smallBlind= +refstake/2;
+    // this.player.players[1].chips=+refchips;
+    // this.player.players[0].chips=+refchips;
+    // this.player.decisionTime= +reftime;
+    // this.cards.players=+refplayers;
+    // this.player.numberOfPlayers= +refplayers;
+       
+    let refs:any[]=[refplayers,refstake,refchips,reftime];
+
+    this.cards.getValues(refs)
     this.signupForm.reset();
     this.router.navigate(['/action']);
   }
