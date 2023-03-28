@@ -76,13 +76,15 @@ export class ActionComponent implements OnInit{
         this.cpPlayer(activePLayerNumber);
       },Math.floor(Math.random()*500*this.player.decisionTime));
     }
+    
     if(activePLayerNumber==0){
       this.players[1].isActivePlayer=true;
     }        
 }
 
+
 cpPlayer(activePLayerNumber:number){
-  
+ 
   if((activePLayerNumber+1)==(this.players.length)){
     this.players[0].isActivePlayer=true;
     this.players[0].toSpeak=false;
