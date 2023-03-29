@@ -58,7 +58,6 @@ This project written with Angular.
 
 The purpose of this poker project is to help players become better. Next versions will contain poker strategies for Bot players (now it's only a random function that decides),which will be explained at the end of each portion.
 
-### Creating A Pull Request
 
 
 
