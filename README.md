@@ -13,7 +13,7 @@
 
 ## About The Project
 
-![Screen Shot](images/home.png)
+![Screen Shot](src/assets/images/home.png)
 
 Here is a poker game built with Angular. This game is a cash game that you can play with other 5 bot players. Τemporarily their decisions based on Math.random(), but at the next versions of this projects it will be the real advantage of this project as a student poker project.
 
