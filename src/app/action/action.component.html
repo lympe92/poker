@@ -203,18 +203,18 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">{{players[0].temporaryBetting}}</th>
-                <td>Mark</td>
+                <th scope="row">{{playersPortionBetting}}</th>
+                <td>playersPortionBetting</td>
           
               </tr>
               <tr>
                 <th scope="row">{{pot}}</th>
-                <td><h6>{{players[0].isActivePlayer}}</h6></td>
+                <td><h6>POT</h6></td>
                 
               </tr>
               <tr>
                 <th scope="row">{{players[0].chips +players[1].chips +players[2].chips +players[3].chips +players[4].chips +players[5].chips}}</th>
-                <td colspan="2">Larry the Bird</td>
+                <td colspan="2">{{players[0].temporaryBetting }}{{ players[1].temporaryBetting  }}{{ players[2].temporaryBetting  }}{{ players[3].temporaryBetting  }}{{ players[4].temporaryBetting  }}{{ players[5].temporaryBetting}}</td>
              
               </tr>
             </tbody>
@@ -246,7 +246,7 @@
         <div class="row w-100 d-flex justify-content-end mb-3 mt-2">
           <input class="col-3 col-md-2 col-xxl-1" [(ngModel)]="onRaiseNum">
           <div class="col-9 col-md-8">
-            <input type="range" class="form-range" min="{{bigBlind+playersPortionBetting}}" max="{{players[1].chips}}" [(ngModel)]="onRaiseNum" step="20" #ref id="customRange3">
+            <input type="range" class="form-range" min="{{bigBlind+playersPortionBetting}}" max="{{players[0].chips}}" [(ngModel)]="onRaiseNum" step="20" #ref id="customRange3">
           </div>
         </div>
     <div class="row w-100 justify-content-end d-flex align-items-end">

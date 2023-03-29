@@ -59,7 +59,6 @@ export class ActionComponent implements OnInit{
 
    let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
    this.players[0].temporaryBetting=this.playersPortionBetting;
-  //  this.players[0].bettingAmount+=this.playersPortionBetting;
    this.players[0].chips-=chipsToCall;
    console.log("apo edo 2")
    this.changePlayer(0);
@@ -71,7 +70,6 @@ export class ActionComponent implements OnInit{
     this.playersPortionBetting=parseInt(ref);
     let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
     this.players[0].temporaryBetting=this.playersPortionBetting;
-    // this.players[0].bettingAmount+=this.playersPortionBetting;
     this.players[0].chips-=chipsToCall;
     console.log("apo edo 3")
     this.changePlayer(0); 
@@ -277,7 +275,7 @@ export class ActionComponent implements OnInit{
     this.winners.length=0;
     this.gameStatus='preFlop';
     this.onRaiseNum=0;
-    this.playersPortionBetting=0;
+    this.playersPortionBetting=this.cardsService.sendValues(1);
     console.log("edo eftase")
     console.log(this.players.length)
     this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
