@@ -6,10 +6,10 @@ import { CardsService } from './cards.service';
 })
 export class SufflingCardsService {
 
-  constructor(private cardsService:CardsService,) { }
-
+  constructor(private cardsService:CardsService) {   
+  }
   arrayLength:number=52;
-
+  
   sufflingCards(playerCards:any,cards:any,playersNum:number){
     for(let i=0;i<playersNum*2;i++){
       let j=Math.floor(Math.random() * this.arrayLength);
@@ -31,18 +31,17 @@ export class SufflingCardsService {
 
   sufflingTurn(tableCards:any,cards:any){
     console.log("sufflingTurn");
-      let j=Math.floor(Math.random() * this.arrayLength);
-      tableCards.push(cards[j]);  
-      cards.splice(j,1);
-      this.arrayLength=cards.length;
+    let j=Math.floor(Math.random() * this.arrayLength);
+    tableCards.push(cards[j]);  
+    cards.splice(j,1);
+    this.arrayLength=cards.length;
   }
 
   sufflingRiver(tableCards:any,cards:any){
     console.log("sufflingRiver");
     let j=Math.floor(Math.random() * this.arrayLength);
     tableCards.push(cards[j]);  
-      cards.splice(j,1);
-      this.arrayLength=cards.length;
+    cards.splice(j,1);
+    this.arrayLength=cards.length;
   }
-
 }

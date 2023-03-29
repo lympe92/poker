@@ -9,7 +9,6 @@ import { SufflingCardsService } from './suffling-cards.service';
 })
 export class GamePlayService {
  
-
   constructor(private suffling:SufflingCardsService, private cards:CardsService, private player:playersService) { 
   }
 
@@ -20,7 +19,7 @@ export class GamePlayService {
     if(playersSorted.length==1){
       winners.push(playersSorted[0]);
       return winners;
-  }
+    }
 
     playersSorted.sort((a:any,b:any)=>a.bestHand[0]-b.bestHand[0] 
       || b.bestHand[2][0].cardId-a.bestHand[2][0].cardId 
@@ -29,21 +28,19 @@ export class GamePlayService {
       || b.bestHand[2][3].cardId-a.bestHand[2][3].cardId
       || b.bestHand[2][4].cardId-a.bestHand[2][4].cardId)
 
-      playersSorted.forEach((x:any)=>{playersSorted.forEach((y:any)=>{ 
-        if(!(x==y) &&
-          x.bestHand[0] == y.bestHand[0] && 
-          x.bestHand[2][0].cardId== y.bestHand[2][0].cardId && 
-          x.bestHand[2][1].cardId== y.bestHand[2][1].cardId && 
-          x.bestHand[2][2].cardId== y.bestHand[2][2].cardId && 
-          x.bestHand[2][3].cardId== y.bestHand[2][3].cardId && 
-          x.bestHand[2][4].cardId== y.bestHand[2][4].cardId)
-          {
-            x.bestHand[1]="SPLIT"
-          }  
-        })})
+    playersSorted.forEach((x:any)=>{playersSorted.forEach((y:any)=>{ 
+      if(!(x==y) &&
+        x.bestHand[0] == y.bestHand[0] && 
+        x.bestHand[2][0].cardId== y.bestHand[2][0].cardId && 
+        x.bestHand[2][1].cardId== y.bestHand[2][1].cardId && 
+        x.bestHand[2][2].cardId== y.bestHand[2][2].cardId && 
+        x.bestHand[2][3].cardId== y.bestHand[2][3].cardId && 
+        x.bestHand[2][4].cardId== y.bestHand[2][4].cardId){
+          x.bestHand[1]="SPLIT"
+        }  
+    })})
 
-        
-        // in case of there is only one winner
+    // in case of there is only one winner
     if(!(playersSorted[0].bestHand[0]==playersSorted[1].bestHand[0])){
       winners.push(playersSorted[0]);
     }
@@ -108,7 +105,6 @@ export class GamePlayService {
     if(pairs[1]=="highCard"){
       return pairs;
     }
-
   }
 
   isStraightFlush(color:any,straight:any){
@@ -127,11 +123,10 @@ export class GamePlayService {
       pairs.push( {cardId: x.cardId, times: sevenCards.filter((y:any)=>y.cardId==x.cardId).length}); 
     })
     pairs.sort((a,b)=>b.times-a.times )
- 
     pairs.forEach((x:any)=>{
       if(pairs.filter((y:any)=>y.cardId==x.cardId).length>1){
-      pairs.splice(pairs.indexOf(x),1)
-    }
+        pairs.splice(pairs.indexOf(x),1)
+      }
     })
     let fiveBestCards:any[]=[];
     if(pairs[0].times==4){
@@ -162,7 +157,6 @@ export class GamePlayService {
       sevenCards.forEach((x:any)=>{if(x.cardId==pairs[2].cardId){fiveBestCards.push(x);}})
       sevenCards.forEach((x:any)=>{if(x.cardId==pairs[3].cardId){fiveBestCards.push(x);}})
       return [9,"pair",fiveBestCards];;
-
     }
     sevenCards.length=5;
     return [10,"highCard",sevenCards];;
@@ -171,18 +165,16 @@ export class GamePlayService {
   isFlush(sevenCards:any){
     let flushTypes=["clubs","spades","hearts","diamonds"];
     let color= flushTypes.find((y:any)=>sevenCards.filter((x:any)=> x.shape==y).length>4)
-    let fiveBestCards= sevenCards.filter((x:any)=> x.shape==color); 
-     
+    let fiveBestCards= sevenCards.filter((x:any)=> x.shape==color);   
     fiveBestCards.find((x:any)=> {if(x.cardId==1){ 
               fiveBestCards.pop(); 
               fiveBestCards.splice(0,0,x); 
-            }})
+    }})
     fiveBestCards.length=5;
     if (color !== undefined) {
       return [5,"flush",fiveBestCards];
-  }
-  return 0;
-    
+    }
+    return 0;
   }
 
   isStraight(sevenCards:any){   
@@ -212,7 +204,7 @@ export class GamePlayService {
                 if(fiveBestCards.filter((y:any)=>y.cardId==x.cardId).length>1){
                   fiveBestCards.splice(fiveBestCards.indexOf(x),1)
                 }
-                })
+              })
               return [6,"straight",fiveBestCards];   
             }
         }
@@ -225,17 +217,13 @@ export class GamePlayService {
             sevenCards.forEach((x:any)=>{if(x.cardId==uniqueChars[i+2]){fiveBestCards.push(x);}})
             sevenCards.forEach((x:any)=>{if(x.cardId==uniqueChars[i+3]){fiveBestCards.push(x);}})
             sevenCards.forEach((x:any)=>{if(x.cardId==uniqueChars[i+4]){fiveBestCards.push(x);}})
-
             fiveBestCards.forEach((x:any)=>{
               if(fiveBestCards.filter((y:any)=>y.cardId==x.cardId).length>1){
                 fiveBestCards.splice(fiveBestCards.indexOf(x),1)
               }
-              })
-    
+            })
             return [6,"straight",fiveBestCards];   
         }
-
-       
       }   
     }
     return 0;
@@ -251,26 +239,27 @@ export class GamePlayService {
   findSmallBlind(players:any){
     console.log("MPIKE FINDSMALLBLIND")
     // turns all players to speak for the next portion
-    players.forEach((x:any)=>{if(x.inPortion){
-      x.toSpeak=true;}
-      })
+    players.forEach((x:any)=>{
+      if(x.inPortion){
+      x.toSpeak=true;
+      }
+    })
     // finds smallblind or next active player
     let y:number=0;
-      players.find((x:any)=>{
-        if(x.isSmallBlind){
-          y=x.number;
-        }
-      })
-      for(let i=0;i<players.length;i++){
-        if(players[y].inPortion){
-           players[y].isActivePlayer=true;
-           return;
-        }  
-        y+=1;
-        if(y==(players.length)){
-           y=0;
-        }
-        
+    players.find((x:any)=>{
+      if(x.isSmallBlind){
+        y=x.number;
       }
+    })
+    for(let i=0;i<players.length;i++){
+      if(players[y].inPortion){
+          players[y].isActivePlayer=true;
+          return;
+      }  
+      y+=1;
+      if(y==(players.length)){
+          y=0;
+      } 
+    }
   }
 }

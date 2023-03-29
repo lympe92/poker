@@ -11,11 +11,8 @@ import { SufflingCardsService } from '../shared/suffling-cards.service';
 })
 
 export class TableComponent implements OnInit {
-  constructor(public sufflingCards:SufflingCardsService,public cardsService:CardsService,public gamePlay:GamePlayService,public player:playersService){
-    
+  constructor(public sufflingCards:SufflingCardsService,public cardsService:CardsService,public gamePlay:GamePlayService,public player:playersService){ 
   }
-
   ngOnInit(): void {
-  
   }
 }

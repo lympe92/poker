@@ -47,45 +47,37 @@ export class ActionComponent implements OnInit{
     this.toCallDesicions();
   }
 
-
   onFold(){
     console.log("onFold");
-    
-    this.players[0].chips-=this.players[1].bettingAmount;
     this.players[0].inPortion=false;
     console.log("apo edo 1")
     this.changePlayer(0);
-    
   }
 
   onCall(){
-    console.log("onCall");
-   // console.log("callCalcChips")
+   console.log("onCall");
 
    let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
    this.players[0].temporaryBetting=this.playersPortionBetting;
-   this.players[0].bettingAmount+=this.playersPortionBetting;
+  //  this.players[0].bettingAmount+=this.playersPortionBetting;
    this.players[0].chips-=chipsToCall;
    console.log("apo edo 2")
-    this.changePlayer(0);
+   this.changePlayer(0);
   }
 
   onRaise(ref:any){
     console.log("onRaise");
     this.players.forEach((x:any)=>x.toSpeak=true); 
-
+    this.playersPortionBetting=parseInt(ref);
     let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
-   this.players[0].temporaryBetting=this.playersPortionBetting;
-   this.players[0].bettingAmount+=this.playersPortionBetting;
-   this.players[0].chips-=chipsToCall;
-   this.playersPortionBetting=parseInt(ref);
-   console.log("apo edo 3")
-   this.changePlayer(0);
-    
+    this.players[0].temporaryBetting=this.playersPortionBetting;
+    // this.players[0].bettingAmount+=this.playersPortionBetting;
+    this.players[0].chips-=chipsToCall;
+    console.log("apo edo 3")
+    this.changePlayer(0); 
   }
 
   playersToSpeak(){
-    // console.log("playersToSpeak");
     let i:number=0;
     this.players.find((x:any)=>{
       if(x.toSpeak && x.inPortion){
@@ -96,7 +88,6 @@ export class ActionComponent implements OnInit{
   }
 
   playersInPortion(){
-    // console.log("playersInPortion");
     let i:number=0;
     this.players.forEach((x:any)=>{
       if(x.inPortion){
@@ -114,11 +105,9 @@ export class ActionComponent implements OnInit{
       }
     })
     return i;
-
   }
 
   whoIsActive(){
-    // console.log("whoIsActive");
     let i!:number;
     this.players.find((x:any)=>{
       if(x.isActivePlayer && x.inPortion){
@@ -129,18 +118,14 @@ export class ActionComponent implements OnInit{
   }
 
   setDelay(){
-    // console.log("setDelay");
-    return Math.floor(Math.random()*this.decisionTime*500);
+    return Math.floor(Math.random()*this.decisionTime*100);
   }
   
-
   decisions(){
     console.log("START NEX");
     // finds who is the active player
     let activePLayer:number= this.whoIsActive();
     console.log("ACTIVE PLAYER",activePLayer)
-  
-    
     if(activePLayer!==0){
       let status=this.cpu.decision(this.players[activePLayer].chips,this.playersPortionBetting,this.bigBlind);
       this.playersPortionBetting= +this.cpu.calcBetting(status,this.playersPortionBetting,this.bigBlind);
@@ -173,10 +158,8 @@ export class ActionComponent implements OnInit{
       this.findWinners();
       return;
     }
-
     if(this.playersWithChipsInPortion()<=1){
-      this.sumUpPot();
-      
+      this.sumUpPot();  
       do{
         this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="flop"){
@@ -198,7 +181,7 @@ export class ActionComponent implements OnInit{
           this.nextGame();
           return;
         }
-          }while(this.gameStatus=="checkings");
+      }while(this.gameStatus=="checkings");
     }
     // if someone want's to speak, calls the desicions again
     if(!noneToSpeak){
@@ -210,28 +193,27 @@ export class ActionComponent implements OnInit{
     if(noneToSpeak){
       this.sumUpPot();
       this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
-    if(this.gameStatus=="flop"){
-      this.sufflingCards.sufflingFlop(this.tableCards,this.cards);
-    }
-    if(this.gameStatus=="turn"){
-      this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
-    }
-    if(this.gameStatus=="river"){
-      this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
-    }
-    if(this.gameStatus=="checkings"){
-      console.log("checkings apo normal")
-      this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
-      this.findWinners();
-      return;
-    }
-    // to find the smallBlind and activate it for starting next round
-    this.gamePlay.findSmallBlind(this.players);
-    console.log("toCall 2")
-    this.toCallDesicions();
+      if(this.gameStatus=="flop"){
+        this.sufflingCards.sufflingFlop(this.tableCards,this.cards);
+      }
+      if(this.gameStatus=="turn"){
+        this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
+      }
+      if(this.gameStatus=="river"){
+        this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
+      }
+      if(this.gameStatus=="checkings"){
+        console.log("checkings apo normal")
+        this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
+        this.findWinners();
+        return;
+      }
+      // to find the smallBlind and activate it for starting next round
+      this.gamePlay.findSmallBlind(this.players);
+      console.log("toCall 2")
+      this.toCallDesicions();
     }
   }
-
 
   findWinners(){
     this.winners=this.gamePlay.isWinner(this.players);
@@ -247,6 +229,7 @@ export class ActionComponent implements OnInit{
     this.players[index].isActivePlayer=false;
     this.players[index].toSpeak=false;
   }
+
   nextPlayer(activePLayerNumber:number){
     activePLayerNumber++;
     if(activePLayerNumber>=this.players.length){
@@ -254,13 +237,12 @@ export class ActionComponent implements OnInit{
     }  
     return activePLayerNumber;
   }
-  activatePlayer(index:number,playersToSpeak:number){
 
+  activatePlayer(index:number,playersToSpeak:number){
     if(this.players[index].inPortion==false||this.players[index].chips==0){
       this.activatePlayer(this.nextPlayer(index),this.playersToSpeak());
       return;
     }
-
     if(playersToSpeak>=1){
       this.players[index].isActivePlayer=true;
     }
@@ -287,6 +269,7 @@ export class ActionComponent implements OnInit{
     })
     this.playersPortionBetting=0;
   }
+
   nextGame(){
     this.pot=0;
     this.playerCards.length=0;
@@ -296,9 +279,7 @@ export class ActionComponent implements OnInit{
     this.onRaiseNum=0;
     this.playersPortionBetting=0;
     console.log("edo eftase")
-    
     console.log(this.players.length)
-
     this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
     this.cards=this.cardsService.cardsFunction();
     this.playerCards=this.cardsService.playerCardsFunction();

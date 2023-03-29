@@ -16,7 +16,6 @@ export class StartingScreenComponent implements OnInit{
   signupForm!: FormGroup;
   constructor(private gamePlay:GamePlayService,private router:Router,private cards:CardsService,private player:playersService){}
   
-
   ngOnInit (): void {
     this.signupForm= new FormGroup({
       'players': new FormControl(2),
@@ -26,17 +25,8 @@ export class StartingScreenComponent implements OnInit{
     });
   }
 
-  onSubmit(refplayers:any,refstake:any, refchips:any, reftime:any){
-    // this.player.bigBlind= +refstake;
-    // this.player.smallBlind= +refstake/2;
-    // this.player.players[1].chips=+refchips;
-    // this.player.players[0].chips=+refchips;
-    // this.player.decisionTime= +reftime;
-    // this.cards.players=+refplayers;
-    // this.player.numberOfPlayers= +refplayers;
-       
+  onSubmit(refplayers:any,refstake:any, refchips:any, reftime:any){   
     let refs:any[]=[refplayers,refstake,refchips,reftime];
-
     this.cards.getValues(refs)
     this.signupForm.reset();
     this.router.navigate(['/action']);

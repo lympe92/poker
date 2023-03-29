@@ -6,15 +6,19 @@
     background-color: #c0765d;
     border-radius: 15px;
 }
+
 .raiseBar{
     width:50% !important;
 }
+
 .desktop-footer{
     display: flex;
 }
+
 .mobile-footer{
     display: none;
 }
+
 .container{
     height:70vh;
     width:auto;
@@ -24,15 +28,16 @@
     background-repeat: no-repeat;
     background-size: cover;    
     background-size: 80% 80%;
-    
 }
+
 .img-table{
     object-fit: contain;
-  
 }
+
 .margin-top{
     margin: 2% auto;
 }
+
 .dealer{
     position: relative;
     width: calc(10px + 1vw);
@@ -47,22 +52,22 @@
     margin-top: calc(-30px - 2vw);
     height: calc(30px + 2vw);
 }
+
 .active{
     border: #c0765d solid 3px;
 }
+
 .fold{
     opacity: 0.5;
 }
 
-
 @media only screen and (max-width: 990px) {
     .card-small{ 
-        width: 25%;
-
+    width: 25%;
     }
-    @media only screen and (max-width: 770px) {
-        .card-small{ 
-            width: 33.33%;
-        }
+}
+@media only screen and (max-width: 770px) {
+    .card-small{ 
+        width: 33.33%;
     }
 }

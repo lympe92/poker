@@ -18,29 +18,21 @@ export class CpuPlayerDecisionsService {
   }
 
   calcPlayer(players:any,x:number,status:string,playersPortionBetting:number){
-    if(status=="fold")
-    {
+    if(status=="fold"){
       console.log("fold");
       players[x].inPortion=false;
       players[x].toSpeak=false;
-
     }
-    if(status=="call")
-    {
+    if(status=="call"){
       console.log("call");
-
       let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
-
-      players[x].temporaryBetting=playersPortionBetting;
-      players[x].bettingAmount+=chipsToCall;
+      players[x].temporaryBetting=Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
       players[x].chips-=chipsToCall;
     }
-    if(status=="raise")
-    {
+    if(status=="raise"){
       console.log("raise");
       let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
-      players[x].temporaryBetting=playersPortionBetting;
-      players[x].bettingAmount+=chipsToCall;
+      players[x].temporaryBetting=Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
       players[x].chips-=chipsToCall;
       players.forEach((x:any)=>{if(x.inPortion){x.toSpeak=true}}); 
     }
@@ -52,7 +44,6 @@ export class CpuPlayerDecisionsService {
     if(this.action==2 && !(chips>=playersPortionBetting+bigBlind)){
       this.action=1;
     }
-
     switch (this.action) {
       case 0:
           return "fold";     
@@ -63,6 +54,6 @@ export class CpuPlayerDecisionsService {
         default:
           return '';
     }
-}
+  }
 
 }

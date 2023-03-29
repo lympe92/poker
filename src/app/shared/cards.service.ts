@@ -6,13 +6,10 @@ import { card } from './card';
   providedIn: 'root'
 })
 export class CardsService {
-  // players!:number;
   cards:any[]=[];
   playerCards:card[]=[];
   tableCards:card[]=[];
-  
-
- ref:number[]=[];
+  ref:number[]=[];
 
   sendValues(refplayers:number){
     console.log("sendValues");
