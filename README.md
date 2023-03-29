@@ -66,8 +66,3 @@ The purpose of this poker project is to help players become better. Next version
 
 * **ilcamorista** - *Front-End Developer* - [ilcamorista](https://github.com/lympe92) - **
 
-## Acknowledgements
-
-* []()
-* []()
-* []()
