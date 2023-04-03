@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component,OnInit } from '@angular/core';
+import {  Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { interval, map, merge, Observable, of, Subject } from 'rxjs';
 import { card } from '../shared/card';
 import { CardsService } from '../shared/cards.service';
 import { CpuPlayerDecisionsService } from '../shared/cpu-player-decisions.service';

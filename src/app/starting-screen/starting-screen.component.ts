@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import { CardsService } from '../shared/cards.service';
 import { GamePlayService } from '../shared/game-play.service';
 import { playersService } from '../shared/players.service';
