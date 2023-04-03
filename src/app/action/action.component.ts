@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component,OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { interval, map, merge, Observable, of, Subject } from 'rxjs';
 import { card } from '../shared/card';
 import { CardsService } from '../shared/cards.service';
@@ -15,7 +16,7 @@ import { SufflingCardsService } from '../shared/suffling-cards.service';
 })
 export class ActionComponent implements OnInit{
 
-  constructor(public gamePlay:GamePlayService,private cpu:CpuPlayerDecisionsService, public player:playersService,public sufflingCards:SufflingCardsService,public cardsService:CardsService,private cd: ChangeDetectorRef){ 
+  constructor(public gamePlay:GamePlayService,private cpu:CpuPlayerDecisionsService, public player:playersService,public sufflingCards:SufflingCardsService,public cardsService:CardsService,private router:Router){ 
   }
   onRaiseNum:number=0;
   players!:player[];
@@ -31,7 +32,6 @@ export class ActionComponent implements OnInit{
   decisionTime!:number;
   numberOfPlayers!:number;
   chips!:number;
-  hasChips:boolean=true;
 
   ngOnInit(): void {
     this.playersPortionBetting=+this.cardsService.sendValues(1);
@@ -45,34 +45,50 @@ export class ActionComponent implements OnInit{
     this.players=this.player.generatePlayers(this.numberOfPlayers,this.bigBlind,this.smallBlind,this.chips);
     this.sufflingCards.sufflingCards(this.playerCards,this.cards,this.players.length);
     this.toCallDesicions();
+    // in case that user refresh the browser page
+    if(!(this.chips==this.cardsService.sendValues(2))){
+      this.router.navigate(['/'])
+    }
   }
+
+
+ onOverallChips(){
+  let i:number=0;
+  this.players.forEach((x:player)=>{
+    i+=x.chips+x.temporaryBetting;
+  })
+return i;
+}
 
   onFold(){
     console.log("onFold");
     this.players[0].inPortion=false;
-    console.log("apo edo 1")
     this.changePlayer(0);
   }
 
   onCall(){
    console.log("onCall");
-
    let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
    this.players[0].temporaryBetting=this.playersPortionBetting;
    this.players[0].chips-=chipsToCall;
-   console.log("apo edo 2")
    this.changePlayer(0);
   }
 
   onRaise(ref:any){
     console.log("onRaise");
-    this.players.forEach((x:any)=>x.toSpeak=true); 
+    this.players.forEach((x:any)=>{if(x.inPortion && x.chips>0){x.toSpeak=true}}); 
     this.playersPortionBetting=parseInt(ref);
     let chipsToCall=this.playersPortionBetting-this.players[0].temporaryBetting;
     this.players[0].temporaryBetting=this.playersPortionBetting;
     this.players[0].chips-=chipsToCall;
-    console.log("apo edo 3")
     this.changePlayer(0); 
+  }
+
+  onHasChips(){
+    if(this.players[0].chips>this.playersPortionBetting-this.players[0].temporaryBetting){
+      return true;
+    }
+    return false;
   }
 
   playersToSpeak(){
@@ -116,7 +132,7 @@ export class ActionComponent implements OnInit{
   }
 
   setDelay(){
-    return Math.floor(Math.random()*this.decisionTime*100);
+    return Math.floor(Math.random()*this.decisionTime*20);
   }
   
   decisions(){
@@ -128,7 +144,6 @@ export class ActionComponent implements OnInit{
       let status=this.cpu.decision(this.players[activePLayer].chips,this.playersPortionBetting,this.bigBlind);
       this.playersPortionBetting= +this.cpu.calcBetting(status,this.playersPortionBetting,this.bigBlind);
       this.players=this.cpu.calcPlayer(this.players,activePLayer,status,this.playersPortionBetting);
-      console.log("apo edo 4")
       this.changePlayer(activePLayer);
     }
   }
@@ -141,34 +156,42 @@ export class ActionComponent implements OnInit{
     // deactivates current player and activates the next
     this.deactivatePlayer(activePLayerNumber);
     this.activatePlayer(this.nextPlayer(activePLayerNumber),this.playersToSpeak()); 
-    this.toCheckStatus(); 
+    if(this.whoIsActive()!==0){
+    this.toCheckStatus(); }
   }
   
   toCheckStatus(){
     console.log("toCheckStatus")
     let noneToSpeak:Boolean=true;
-    this.players.forEach((x:any)=>{
+    this.players.forEach((x:player)=>{
       if(x.toSpeak && x.inPortion){
         noneToSpeak= false; 
       }  
     });
+    // in case that only one player is in portion
     if(this.playersInPortion()==1){
+      this.sumUpPot();
       this.findWinners();
       return;
     }
-    if(this.playersWithChipsInPortion()<=1){
+    if(this.playersWithChipsInPortion()<=1 && noneToSpeak){
       this.sumUpPot();  
+      console.log("KASKADER")
       do{
         this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="flop"){
           this.sufflingCards.sufflingFlop(this.tableCards,this.cards);
         }
+        this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="turn"){
           this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
         }
+        this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
+        console.log(this.gameStatus)
         if(this.gameStatus=="river"){
           this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
         }
+        this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="checkings"){
           console.log("checkings APO MPOURDELO")
           this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
@@ -183,7 +206,6 @@ export class ActionComponent implements OnInit{
     }
     // if someone want's to speak, calls the desicions again
     if(!noneToSpeak){
-      console.log("toCall 1")
       this.toCallDesicions();
       return;
     }
@@ -201,14 +223,12 @@ export class ActionComponent implements OnInit{
         this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
       }
       if(this.gameStatus=="checkings"){
-        console.log("checkings apo normal")
         this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
         this.findWinners();
         return;
       }
       // to find the smallBlind and activate it for starting next round
       this.gamePlay.findSmallBlind(this.players);
-      console.log("toCall 2")
       this.toCallDesicions();
     }
   }
@@ -237,16 +257,15 @@ export class ActionComponent implements OnInit{
   }
 
   activatePlayer(index:number,playersToSpeak:number){
+    if(playersToSpeak==0){
+      return ;
+    }
     if(this.players[index].inPortion==false||this.players[index].chips==0){
       this.activatePlayer(this.nextPlayer(index),this.playersToSpeak());
       return;
     }
     if(playersToSpeak>=1){
       this.players[index].isActivePlayer=true;
-    }
-     // hasChips property used for Dashboard at footer
-     if(this.players[0].chips<this.playersPortionBetting-this.players[0].temporaryBetting){
-      this.hasChips=false;
     }
   }
     
@@ -275,14 +294,11 @@ export class ActionComponent implements OnInit{
     this.winners.length=0;
     this.gameStatus='preFlop';
     this.onRaiseNum=0;
-    this.playersPortionBetting=this.cardsService.sendValues(1);
-    console.log("edo eftase")
-    console.log(this.players.length)
+    this.playersPortionBetting=+this.cardsService.sendValues(1);
     this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
     this.cards=this.cardsService.cardsFunction();
     this.playerCards=this.cardsService.playerCardsFunction();
     this.sufflingCards.sufflingCards(this.playerCards,this.cards,this.players.length);
-    console.log("toCall 5")
     this.toCallDesicions();
   }
 }

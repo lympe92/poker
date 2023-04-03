@@ -10,7 +10,8 @@ import { StartingScreenComponent } from './starting-screen/starting-screen.compo
 const appRoutes: Routes = [
   {path:'', component:StartingScreenComponent},
   {path:'table', component:TableComponent},
-  {path:'action', component:ActionComponent}
+  {path:'action', component:ActionComponent},
+  {path:'**', component:StartingScreenComponent}
 ]
 
 @NgModule({

@@ -238,9 +238,9 @@ export class GamePlayService {
 
   findSmallBlind(players:any){
     console.log("MPIKE FINDSMALLBLIND")
-    // turns all players to speak for the next portion
-    players.forEach((x:any)=>{
-      if(x.inPortion){
+    // turns all players  to speak for the next portion
+    players.forEach((x:player)=>{
+      if(x.inPortion && x.chips>0){
       x.toSpeak=true;
       }
     })
@@ -252,7 +252,7 @@ export class GamePlayService {
       }
     })
     for(let i=0;i<players.length;i++){
-      if(players[y].inPortion){
+      if(players[y].inPortion && players[y].chips>0){
           players[y].isActivePlayer=true;
           return;
       }  

@@ -25,16 +25,16 @@ export class CpuPlayerDecisionsService {
     }
     if(status=="call"){
       console.log("call");
-      let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
-      players[x].temporaryBetting=Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
+      let chipsToCall=+Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
+      players[x].temporaryBetting=+Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
       players[x].chips-=chipsToCall;
     }
     if(status=="raise"){
       console.log("raise");
-      let chipsToCall=Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
-      players[x].temporaryBetting=Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
+      let chipsToCall=+Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
+      players[x].temporaryBetting=+Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
       players[x].chips-=chipsToCall;
-      players.forEach((x:any)=>{if(x.inPortion){x.toSpeak=true}}); 
+      players.forEach((x:any)=>{if(x.inPortion && x.chips>0){x.toSpeak=true}}); 
     }
     return players;
   }

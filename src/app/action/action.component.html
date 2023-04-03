@@ -3,8 +3,8 @@
     <!-- TOP -->
     <div class="d-flex justify-content-evenly align-self-start" style="height: 21vh;">
      <!-- Player  CPU-3--> 
-    <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">
-      <div [ngClass]="{fold:!players[3].inPortion}" *ngIf="!!players[3]">
+     <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">   
+      <div  [ngClass]="{fold:!players[3].inPortion}" *ngIf="!!players[3]">
         <div class="d-flex col-10 justify-content-center align-self-center">
           <img src="{{playerCards[players[3].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
           <img src="{{playerCards[players.length+players[3].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
@@ -14,8 +14,8 @@
             <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
           </div>
           <div class="col-12">
-            <h6 class="card-title d-flex justify-content-center">{{players[3].name}}</h6>
-            <h6 class="card-text">{{players[3].chips}}</h6>
+            <!-- <h6 class="card-title d-flex justify-content-center">{{players[3].name}}</h6> -->
+            <h6 class="card-text">{{players[3].isActivePlayer}} {{players[3].inPortion}} {{players[3].toSpeak}} {{players[3].chips}}</h6>
           </div>
         </div>
         <div class="d-flex justify-content-end" style="height: 20px;">
@@ -25,7 +25,7 @@
           <h6 style="position: relative; bottom: calc(-26px - 2vh); color: black; margin-left:-20px">{{players[3].temporaryBetting}} </h6>
         </div>   
       </div>
-  </div>
+    </div>
     <!-- Player End -->
      <!-- Player  CPU-4--> 
     <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">   
@@ -39,8 +39,8 @@
             <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
           </div>
           <div class="col-12">
-            <h6 class="card-title d-flex justify-content-center">{{players[4].name}}</h6>
-            <h6 class="card-text">{{players[4].chips}}</h6>
+            <!-- <h6 class="card-title d-flex justify-content-center">{{players[4].name}}</h6> -->
+            <h6 class="card-text">{{players[4].isActivePlayer}} {{players[4].inPortion}}  {{players[4].toSpeak}} {{players[4].chips}}</h6>
           </div>
         </div>
         <div class="d-flex justify-content-start" style="height: 20px;">
@@ -83,8 +83,8 @@
             <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
           </div>
           <div class="col-12">
-            <h6 class="card-title d-flex justify-content-center">{{players[2].name}}</h6>
-            <h6 class="card-text">{{players[2].chips}}</h6>
+            <!-- <h6 class="card-title d-flex justify-content-center">{{players[2].name}}</h6> -->
+            <h6 class="card-text">{{players[2].isActivePlayer}} {{players[2].inPortion}}  {{players[2].toSpeak}} {{players[2].chips}}</h6>
           </div>
         </div>
       </div>
@@ -129,8 +129,8 @@
           <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
         </div>
         <div class="col-12">
-          <h6 class="card-title d-flex justify-content-center">{{players[5].name}}</h6>
-          <h6 class="card-text">{{players[5].chips}}</h6>
+          <!-- <h6 class="card-title d-flex justify-content-center">{{players[5].name}}</h6> -->
+          <h6 class="card-text">{{players[5].isActivePlayer}} {{players[5].inPortion}}  {{players[5].toSpeak}} {{players[5].chips}}</h6>
         </div>
       </div>
     </div>
@@ -141,7 +141,7 @@
 
     <!-- BOTTOM -->
     <div class="row justify-content-center justify-content-evenly align-self-end mb-1" style="height: 21vh; ">   
-          <!-- Player ME-->   
+          <!-- Player CPU-1-->   
           <div class="col-3 col-sm-3 col-lg-2 row justify-content-center" [ngClass]="{fold:!players[1].inPortion}" *ngIf="!!players[1]">
             <div class="d-flex justify-content-end"  style="height: 20px;">
               <img src="assets/images/chip500.png" class="d-flex align-self-start"  style="position: relative; right: -50px; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip500); let i = index">
@@ -158,13 +158,13 @@
                 <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
               </div>
               <div class="col-12">
-                <h6 class="card-title d-flex justify-content-center">{{players[1].name}}</h6>
-                <h6 class="card-text">{{players[1].chips}}</h6>
+                <!-- <h6 class="card-title d-flex justify-content-center">{{players[1].name}}</h6> -->
+                <h6 class="card-text">{{players[1].isActivePlayer}} {{players[1].inPortion}}  {{players[1].toSpeak}} {{players[1].chips}}</h6>
               </div>
             </div>
           </div>
-          <!-- Player End ME -->
-      <!-- Player CPU-1-->   
+          <!-- Player End CPU-1 -->
+      <!-- Player ME-->   
     <div class="col-3 col-sm-3 col-lg-2 row justify-content-center" [ngClass]="{fold:!players[0].inPortion}" *ngIf="!!players[0]">
       <div class="d-flex"  style="height: 20px;">
         <img src="assets/images/chip500.png" class="d-flex align-self-start"  style="position: relative; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(0).chip500); let i = index">
@@ -181,12 +181,12 @@
           <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
         </div>
         <div class="col-12">
-          <h6 class="card-title d-flex justify-content-center">{{players[0].name}}</h6>
-          <h6 class="card-text">{{players[0].chips}}</h6>
+          <!-- <h6 class="card-title d-flex justify-content-center">{{players[0].name}}</h6> -->
+          <h6 class="card-text">{{players[0].isActivePlayer}} {{players[0].inPortion}}  {{players[0].toSpeak}} {{players[0].chips}}</h6>
         </div>
       </div>
     </div>
-    <!-- Player End CPU-1 -->
+    <!-- Player End ME -->
     </div>  
   </div>
 
@@ -198,28 +198,23 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">First</th>
-               
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">{{playersPortionBetting}}</th>
                 <td>playersPortionBetting</td>
-          
-              </tr>
-              <tr>
-                <th scope="row">{{pot}}</th>
-                <td><h6>POT</h6></td>
-                
               </tr>
               <tr>
                 <th scope="row"></th>
-                <td colspan="2"></td>
-             
+                <td><h6>POT</h6></td>
+              </tr>
+              <tr>
+                <th scope="row">{{onOverallChips()}}</th>
+                <td colspan="2">onOverallChips</td>
               </tr>
             </tbody>
-          </table>
-         
+          </table>         
         </div>
     </div>
 
@@ -259,7 +254,7 @@
                     <button class="btn btn-success btn-lg p-2 col-12" type="button" (click)="onCall()"><h2>Call</h2></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-success btn-lg p-2 col-12" type="button" (click)="onRaise(ref.value)" *ngIf="hasChips" ><h2>Raise{{ref.value}}</h2></button>
+                    <button class="btn btn-success btn-lg p-2 col-12" type="button" (click)="onRaise(ref.value)" *ngIf="onHasChips()" ><h2>Raise{{ref.value}}</h2></button>
                 </div>
             </div>
         </div>

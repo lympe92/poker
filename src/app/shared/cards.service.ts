@@ -12,12 +12,10 @@ export class CardsService {
   ref:number[]=[];
 
   sendValues(refplayers:number){
-    console.log("sendValues");
    return this.ref[refplayers];
   }
 
   getValues(refs:any){
-    console.log("getValues");
    this.ref=refs;
   }
  

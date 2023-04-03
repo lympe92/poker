@@ -64,20 +64,26 @@ export class playersService {
   }
 
   nextPortBlinds(players:any,bigBlind:number,smallBlind:number){
-    // prepares next blinds
+    // Number of dealer player
     let NoOfDealer:number= players.find((x:player)=>x.isDealer==true).number;
+    let dealerPlayer:number=NoOfDealer;
+    // removes the goner players
+    let zeroChipPlayers:player[]=[];
+    players.forEach((x:player)=>{if(x.chips==0){console.log("autos",x); zeroChipPlayers.push(x)}})
+    players = players.filter((x:any) => !zeroChipPlayers.includes(x));
+
+    // next dealer
     NoOfDealer++;
+    console.log("NoOfDealer",NoOfDealer)    
+    console.log("players.length",(players.length-1))
     if(NoOfDealer>players.length-1){
       NoOfDealer=0;
     }
-    let dealerPlayer:number=NoOfDealer;
-    // removes the goner players
-    players.forEach((x:any)=>{if(x.chips==0){players.splice(x.number,1)}})
+   
     // restarts the players properties
     players.forEach((x:player)=> {x.inPortion=true; x.toSpeak=true; x.isActivePlayer=false;x.isDealer=false;x.isSmallBlind=false;x.isBigBlind=false;})
     this.blindsDispenser(NoOfDealer,players,bigBlind,smallBlind);
     this.idDispenser(dealerPlayer,players);
-    console.log(players); 
     return players;
   }
 }
