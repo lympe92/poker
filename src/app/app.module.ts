@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { ActionComponent } from './action/action.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableComponent } from './table/table.component';
 import { RouterModule, Routes } from '@angular/router';
 import { StartingScreenComponent } from './starting-screen/starting-screen.component';
+import { PlayerComponent } from './action/player/player.component';
+import { ChipsComponent } from './action/chips/chips.component';
 
 const appRoutes: Routes = [
   {path:'', component:StartingScreenComponent},
-  {path:'table', component:TableComponent},
   {path:'action', component:ActionComponent},
   {path:'**', component:StartingScreenComponent}
 ]
@@ -18,8 +18,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ActionComponent,
-    TableComponent,
-    StartingScreenComponent
+    StartingScreenComponent,
+    PlayerComponent,
+    ChipsComponent
   ],
   imports: [
     BrowserModule,

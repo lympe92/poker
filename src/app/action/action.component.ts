@@ -50,14 +50,13 @@ export class ActionComponent implements OnInit{
     }
   }
 
-
- onOverallChips(){
-  let i:number=0;
-  this.players.forEach((x:player)=>{
-    i+=x.chips+x.temporaryBetting;
-  })
-return i;
-}
+  onOverallChips(){
+    let i:number=0;
+    this.players.forEach((x:player)=>{
+      i+=x.chips+x.temporaryBetting;
+    })
+  return i;
+  }
 
   onFold(){
     console.log("onFold");
@@ -131,7 +130,7 @@ return i;
   }
 
   setDelay(){
-    return Math.floor(Math.random()*this.decisionTime*20);
+    return Math.floor(Math.random()*this.decisionTime*1000);
   }
   
   decisions(){
@@ -192,7 +191,7 @@ return i;
         }
         this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="checkings"){
-          console.log("checkings APO MPOURDELO")
+          console.log("checkings APO")
           this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
           this.winners=this.gamePlay.isWinner(this.players);
           console.log(this.winners)

@@ -1,194 +1,100 @@
 <div class="container text-center margin-top d-grid">
-
-    <!-- TOP -->
-    <div class="d-flex justify-content-evenly align-self-start" style="height: 21vh;">
-     <!-- Player  CPU-3--> 
-     <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">   
-      <div  [ngClass]="{fold:!players[3].inPortion}" *ngIf="!!players[3]">
-        <div class="d-flex col-10 justify-content-center align-self-center">
-          <img src="{{playerCards[players[3].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-          <img src="{{playerCards[players.length+players[3].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
+  <div class="img align-self-center d-grid">
+      <!-- TOP -->
+      <div class="d-flex justify-content-evenly align-self-start" style="height: calc(25px + 8.3vw)">
+        <!-- Player  CPU-3--> 
+        <div class="col-3 col-sm-3 col-lg-2 row justify-content-center" > 
+          <app-player [players]="players" [num]="3" [playerCards]="playerCards"></app-player>
+        </div> 
+        <!-- Player End -->
+        <!-- Player  CPU-4--> 
+        <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">
+          <app-player [players]="players" [num]="4" [playerCards]="playerCards"></app-player>
         </div>
-        <div [ngClass]="{active:players[3].isActivePlayer}" class="card card-body row col-12">
-          <div class="col-1"*ngIf="players[3].isDealer">
-            <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
-          </div>
-          <div class="col-12">
-            <!-- <h6 class="card-title d-flex justify-content-center">{{players[3].name}}</h6> -->
-            <h6 class="card-text">{{players[3].isActivePlayer}} {{players[3].inPortion}} {{players[3].toSpeak}} {{players[3].chips}}</h6>
-          </div>
-        </div>
-        <div class="d-flex justify-content-end" style="height: 20px;">
-          <img src="assets/images/chip500.png" class="d-flex"  style="position: relative;  bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(3).chip500); let i = index">
-          <img src="assets/images/chip100.png" class="d-flex"  style="position: relative; bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(3).chip100); let i = index">
-          <img src="assets/images/chip10.png" class="d-flex"  style="position: relative;  bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(3).chip10); let i = index">
-          <h6 style="position: relative; bottom: calc(-26px - 2vh); color: black; margin-left:-20px">{{players[3].temporaryBetting}} </h6>
-        </div>   
       </div>
-    </div>
-    <!-- Player End -->
-     <!-- Player  CPU-4--> 
-    <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">   
-      <div  [ngClass]="{fold:!players[4].inPortion}" *ngIf="!!players[4]">
-        <div class="d-flex col-10 justify-content-center align-self-center">
-          <img src="{{playerCards[players[4].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-          <img src="{{playerCards[players.length+players[4].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
+      <div class="d-flex justify-content-evenly align-self-start" style="height: 30px;">
+        <!-- Player  CPU-3 CHIPS--> 
+        <div class="justify-content-center">
+          <app-chips [players]="players" [num]="3" *ngIf="!!players[3]" class="d-flex" ></app-chips>
+        </div>  
+        <!-- Player End -->
+        <!-- Player  CPU-4 CHIPS--> 
+        <div class="justify-content-center">
+          <app-chips [players]="players" [num]="4" *ngIf="!!players[4]" class="d-flex"></app-chips>
         </div>
-        <div [ngClass]="{active:players[4].isActivePlayer}" class="card card-body row col-12">
-          <div class="col-1"*ngIf="players[4].isDealer">
-            <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
-          </div>
-          <div class="col-12">
-            <!-- <h6 class="card-title d-flex justify-content-center">{{players[4].name}}</h6> -->
-            <h6 class="card-text">{{players[4].isActivePlayer}} {{players[4].inPortion}}  {{players[4].toSpeak}} {{players[4].chips}}</h6>
-          </div>
-        </div>
-        <div class="d-flex justify-content-start" style="height: 20px;">
-          <img src="assets/images/chip500.png" class="d-flex"  style="position: relative;  bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(4).chip500); let i = index">
-          <img src="assets/images/chip100.png" class="d-flex"  style="position: relative; bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(4).chip100); let i = index">
-          <img src="assets/images/chip10.png" class="d-flex"  style="position: relative;  bottom: calc(-7px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(4).chip10); let i = index">
-          <h6 style="position: relative; bottom: calccalc(-26px - 2vh); color: black; margin-left:-20px">{{players[4].temporaryBetting}} </h6>
-        </div>   
       </div>
-    </div>
-    <!-- Player End -->
-    </div>
-     <!-- MIDDLE -->
-    <div class="col-12 d-flex justify-content-center align-self-center">
-      <div class="d-flex justify-content-end col-3" >
-        <img src="assets/images/chip500.png" class="d-flex align-self-start" style="position: relative; width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip500); let i = index">
-        <img src="assets/images/chip100.png" class="d-flex align-self-start" style="position: relative; width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip100); let i = index">
-        <img src="assets/images/chip10.png" class="d-flex align-self-start" style="position: relative;  width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip10); let i = index">
-      </div>   
-      <div class="d-flex justify-content-start col-3" >
-        <h6 style="position: relative; color: black;">{{players[1].temporaryBetting}} </h6>
-      </div>
-    </div>   
-  <div class="d-flex justify-content-evenly align-self-center">
+      <!-- MIDDLE -->
+    <div class="d-flex justify-content-evenly align-self-center">
       <!-- Player CPU-2--> 
-    <div class="col-3 col-sm-3 col-lg-2 ">  
-      <div [ngClass]="{fold:!players[2].inPortion}" *ngIf="!!players[2]">
-        <div class="d-flex justify-content-end" style="height: 20px;">
-          <img src="assets/images/chip500.png" class="d-flex"  style="position: relative; right: calc(-28px - 5vw); bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(2).chip500); let i = index">
-          <img src="assets/images/chip100.png" class="d-flex"  style="position: relative; right: calc(-28px - 5vw); bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(2).chip100); let i = index">
-          <img src="assets/images/chip10.png" class="d-flex"  style="position: relative;  right: calc(-28px - 5vw); bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(2).chip10); let i = index">
-          <h6 style="position: relative; right: calc(-28px - 5vw); bottom: calc(-30px - 2vh); color: black; margin-left:-20px">{{players[2].temporaryBetting}} </h6>
-        </div>   
-        <div class="d-flex col-10 justify-content-center align-self-center">
-          <img src="{{playerCards[players[2].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-          <img src="{{playerCards[players.length+players[2].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
-        </div>
-        <div [ngClass]="{active:players[2].isActivePlayer}" class="card card-body row col-12">
-          <div class="col-1"*ngIf="players[2].isDealer">
-            <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
-          </div>
-          <div class="col-12">
-            <!-- <h6 class="card-title d-flex justify-content-center">{{players[2].name}}</h6> -->
-            <h6 class="card-text">{{players[2].isActivePlayer}} {{players[2].inPortion}}  {{players[2].toSpeak}} {{players[2].chips}}</h6>
-          </div>
-        </div>
+      <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">  
+        <app-player [players]="players" [num]="2" [playerCards]="playerCards"></app-player>
+      </div>  
+      <!-- Player  CPU-2 CHIPS--> 
+      <div class="justify-content-center col-1 d-flex">
+       <app-chips [players]="players" [num]="2" *ngIf="!!players[2]" class="d-flex"></app-chips>
       </div>
-    </div>
+      <!-- </div> -->
       <!-- Player End -->
- 
-      <div class="col-6 d-flex justify-content-center">    
-        <div class="col-6 d-flex">
-          <img src="{{tableCards[0].img}}" class="img-table" style="width: 33.33333%;" alt="" *ngIf="!!tableCards[0] else noCard">
-          <img src="{{tableCards[1].img}}" class="img-table" style="width: 33.33333%;"alt="" *ngIf="!!tableCards[1] else noCard">
-          <img src="{{tableCards[2].img}}" class="img-table" style="width: 33.33333%;" alt="" *ngIf="!!tableCards[2] else noCard">
-        </div>
-        <div class="col-2 justify-content-center d-flex">
-          <img src="{{tableCards[3].img}}"  class="img-table" style="width: 100%;" alt="" *ngIf="!!tableCards[3] else noCardBig">
-        </div>
-        <div class="col-2 justify-content-start d-flex">
-          <img src="{{tableCards[4].img}}" class="img-table" style="width: 100%;" alt="" *ngIf="!!tableCards[4] else noCardBig">
-        </div>
-      </div>
-
-      <ng-template #noCard>
-        <img src="assets/images/secret-card.png" class="img-table" style="width: 100%;" alt="">
-      </ng-template>
-      <ng-template #noCardBig>
-        <img src="assets/images/secret-card.png" class="img-table" style="width: 100%;" alt="">
-      </ng-template>
-    <!-- Player CPU-5-->   
-  <div class="col-3 col-sm-3 col-lg-2">
-    <div [ngClass]="{fold:!players[5].inPortion}" *ngIf="!!players[5]">
-      <div class="d-flex justify-content-start" style="height: 20px;">
-        <img src="assets/images/chip500.png" class="d-flex align-self-start"  style="position: relative; left: calc(20px - 5vw);  bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(5).chip500); let i = index">
-        <img src="assets/images/chip100.png" class="d-flex align-self-start"  style="position: relative; left: calc(20px - 5vw); bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(5).chip100); let i = index">
-        <img src="assets/images/chip10.png" class="d-flex align-self-start"  style="position: relative;  left: calc(20px - 5vw); bottom: calc(-30px - 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(5).chip10); let i = index">
-        <h6 style="position: relative; left: calc(20px - 5vw);  bottom: calc(-30px - 2vh); color: black; margin-left:-20px">{{players[5].temporaryBetting}} </h6>
-      </div>   
-      <div class="d-flex col-10 justify-content-center align-self-center">
-        <img src="{{playerCards[players[5].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-        <img src="{{playerCards[players.length+players[5].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
-      </div>
-      <div [ngClass]="{active:players[5].isActivePlayer}" class="card card-body row col-12">
-        <div class="col-1"*ngIf="players[5].isDealer">
-          <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
-        </div>
-        <div class="col-12">
-          <!-- <h6 class="card-title d-flex justify-content-center">{{players[5].name}}</h6> -->
-          <h6 class="card-text">{{players[5].isActivePlayer}} {{players[5].inPortion}}  {{players[5].toSpeak}} {{players[5].chips}}</h6>
-        </div>
-      </div>
-    </div>
-  </div>    
-  <!-- Player End CPU-5 -->
-  </div>  
-
-
-    <!-- BOTTOM -->
-    <div class="row justify-content-center justify-content-evenly align-self-end mb-1" style="height: 21vh; ">   
-          <!-- Player CPU-1-->   
-          <div class="col-3 col-sm-3 col-lg-2 row justify-content-center" [ngClass]="{fold:!players[1].inPortion}" *ngIf="!!players[1]">
-            <div class="d-flex justify-content-end"  style="height: 20px;">
-              <img src="assets/images/chip500.png" class="d-flex align-self-start"  style="position: relative; right: -50px; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip500); let i = index">
-              <img src="assets/images/chip100.png" class="d-flex align-self-start"  style="position: relative; right: -50px; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip100); let i = index">
-              <img src="assets/images/chip10.png" class="d-flex align-self-start"  style="position: relative; right: -50px; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(1).chip10); let i = index">
-              <h6 style="position: relative; bottom: calc(11px + 2vh); color: black; margin-left:-20px">{{players[1].temporaryBetting}} </h6>
-            </div>   
-            <div class="d-flex col-10 justify-content-center align-self-center">
-              <img src="{{playerCards[players[1].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-              <img src="{{playerCards[players.length+players[1].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
-            </div>
-            <div [ngClass]="{active:players[1].isActivePlayer}" class="card card-body row col-12">
-              <div class="col-1"*ngIf="players[1].isDealer">
-                <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
-              </div>
-              <div class="col-12">
-                <!-- <h6 class="card-title d-flex justify-content-center">{{players[1].name}}</h6> -->
-                <h6 class="card-text">{{players[1].isActivePlayer}} {{players[1].inPortion}}  {{players[1].toSpeak}} {{players[1].chips}}</h6>
-              </div>
-            </div>
+      <!-- tableCards -->
+        <div class="col-6 d-flex justify-content-center">    
+          <div class="col-6 d-flex">
+            <img src="{{tableCards[0].img}}" class="img-table" style="width: 33.33333%;" alt="" *ngIf="!!tableCards[0] else noCard">
+            <img src="{{tableCards[1].img}}" class="img-table" style="width: 33.33333%;"alt="" *ngIf="!!tableCards[1] else noCard">
+            <img src="{{tableCards[2].img}}" class="img-table" style="width: 33.33333%;" alt="" *ngIf="!!tableCards[2] else noCard">
           </div>
-          <!-- Player End CPU-1 -->
-      <!-- Player ME-->   
-    <div class="col-3 col-sm-3 col-lg-2 row justify-content-center" [ngClass]="{fold:!players[0].inPortion}" *ngIf="!!players[0]">
-      <div class="d-flex"  style="height: 20px;">
-        <img src="assets/images/chip500.png" class="d-flex align-self-start"  style="position: relative; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(0).chip500); let i = index">
-        <img src="assets/images/chip100.png" class="d-flex align-self-start"  style="position: relative; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(0).chip100); let i = index">
-        <img src="assets/images/chip10.png" class="d-flex align-self-start"  style="position: relative; bottom: calc(30px + 2vh); width:20px; margin-left:-19px" alt="..." *ngFor="let item of [].constructor(this.calculateChips(0).chip10); let i = index">
-        <h6 style="position: relative; bottom: calc(11px + 2vh); color: black; margin-left:-20px">{{players[0].temporaryBetting}} </h6>
-      </div>   
-      <div class="d-flex col-10 justify-content-center align-self-center">
-        <img src="{{playerCards[players[0].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
-        <img src="{{playerCards[players.length+players[0].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
-      </div>
-      <div [ngClass]="{active:players[0].isActivePlayer}" class="card card-body row col-12">
-        <div class="col-1"*ngIf="players[0].isDealer">
-          <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
+          <div class="col-2 justify-content-center d-flex">
+            <img src="{{tableCards[3].img}}"  class="img-table" style="width: 100%;" alt="" *ngIf="!!tableCards[3] else noCardBig">
+          </div>
+          <div class="col-2 justify-content-start d-flex">
+            <img src="{{tableCards[4].img}}" class="img-table" style="width: 100%;" alt="" *ngIf="!!tableCards[4] else noCardBig">
+          </div>
         </div>
-        <div class="col-12">
-          <!-- <h6 class="card-title d-flex justify-content-center">{{players[0].name}}</h6> -->
-          <h6 class="card-text">{{players[0].isActivePlayer}} {{players[0].inPortion}}  {{players[0].toSpeak}} {{players[0].chips}}</h6>
-        </div>
+        <ng-template #noCard>
+          <img src="assets/images/secret-card.png" class="img-table" style="width: 100%;" alt="">
+        </ng-template>
+        <ng-template #noCardBig>
+          <img src="assets/images/secret-card.png" class="img-table" style="width: 100%;" alt="">
+        </ng-template>
+        <!-- tableCards End-->
+            <!-- Player  CPU-5 CHIPS--> 
+        <div class="justify-content-center col-1 d-flex">
+          <app-chips [players]="players" [num]="5" *ngIf="!!players[5]" class="d-flex"></app-chips>
+        </div>  
+        <!-- </div> -->
+        <!-- Player End -->
+      <!-- Player CPU-5-->   
+    <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">
+      <app-player [players]="players" [num]="5" [playerCards]="playerCards"></app-player>  
+    </div>
+    <!-- Player End CPU-5 -->
+    </div>  
+    <!-- BOTTOM -->
+    <div class="d-flex justify-content-evenly align-self-start" style="height: 30px;">
+      <!-- Player  CPU-1 CHIPS--> 
+      <div class="justify-content-center">
+        <app-chips [players]="players" [num]="1" *ngIf="!!players[1]" class="d-flex"></app-chips>
+      </div>  
+      <!-- Player End -->
+      <!-- Player  ME CHIPS--> 
+      <div class="justify-content-center">
+        <app-chips [players]="players" [num]="0" *ngIf="!!players[0]" class="d-flex"></app-chips>
       </div>
     </div>
-    <!-- Player End ME -->
+    <div class="row justify-content-center justify-content-evenly align-self-end mb-1" style="height: calc(25px + 8.3vw)">   
+      <!-- Player CPU-1-->
+      <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">
+        <app-player [players]="players" [num]="1" [playerCards]="playerCards"></app-player>
+      </div>
+      <!-- Player End CPU-1 -->
+      <!-- Player ME-->   
+      <div class="col-3 col-sm-3 col-lg-2 row justify-content-center">  
+        <app-player [players]="players" [num]="0" [playerCards]="playerCards"></app-player>
+      </div>
+      <!-- Player End ME -->
     </div>  
-  </div>
+  
+  </div>  
+</div>
 
 <div class="footer d-flex">  
     <div class="col-6  d-none d-md-block d-flex align-self-end ">
@@ -217,8 +123,6 @@
           </table>         
         </div>
     </div>
-
-  
      <div class="col-12 col-md-6 align-self-end" *ngIf="players[0].isActivePlayer">
         <div class="row w-100 justify-content-end d-flex">
           <div class="text-center col-12 col-md-8 ">

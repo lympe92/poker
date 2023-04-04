@@ -1,0 +1,14 @@
+
+    <div class="d-flex col-10 justify-content-center align-self-center" *ngIf="!!players[num]" [ngClass]="{fold:!players[num].inPortion}">
+      <img src="{{playerCards[players[num].id].img}}" class="card-img-top" style="width: 80%;" alt="...">
+      <img src="{{playerCards[players.length+players[num].id].img}}" class="card-img-top" style="width: 80%; margin-left: -20%;" alt="...">
+    </div>
+    <div [ngClass]="{active:players[num].isActivePlayer}" class="card card-body row col-12" *ngIf="!!players[num]">
+      <div class="col-1"*ngIf="players[num].isDealer">
+        <img src="assets/images/dealer.png" class="d-flex align-self-start dealer" alt="...">
+      </div>
+      <div class="col-12" *ngIf="!!players[num]">
+         <!-- <h6 class="card-title d-flex justify-content-center">{{players[NUM].name}}</h6>  -->
+         <h6 class="card-text">{{players[num].isActivePlayer}} {{players[num].inPortion}}  {{players[num].toSpeak}} {{players[num].chips}}</h6>
+      </div>
+ 
