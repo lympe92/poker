@@ -25,7 +25,7 @@ export class CpuPlayerDecisionsService {
     if(status=="call"){
       console.log("call");
       let chipsToCall=+Math.min(Math.max(playersPortionBetting-players[x].temporaryBetting, 0), players[x].chips);
-      players[x].temporaryBetting=+Math.min(Math.max(playersPortionBetting, 0), players[x].chips);
+      players[x].temporaryBetting=+Math.min(Math.max(playersPortionBetting, 0), players[x].chips+players[x].temporaryBetting);
       players[x].chips-=chipsToCall;
     }
     if(status=="raise"){

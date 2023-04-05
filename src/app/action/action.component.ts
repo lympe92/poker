@@ -130,7 +130,7 @@ export class ActionComponent implements OnInit{
   }
 
   setDelay(){
-    return Math.floor(Math.random()*this.decisionTime*1000);
+    return Math.floor(Math.random()*this.decisionTime*100);
   }
   
   decisions(){
@@ -197,7 +197,7 @@ export class ActionComponent implements OnInit{
           console.log(this.winners)
           this.players.forEach((x:player)=>{this.winners.forEach((y:any)=>{if(x==y){x.chips+=(this.pot/this.winners.length)}})})
           console.log("perase")
-          this.nextGame();
+          setTimeout(()=> this.nextGame(),3000);
           return;
         }
       }while(this.gameStatus=="checkings");
@@ -294,9 +294,14 @@ export class ActionComponent implements OnInit{
     this.onRaiseNum=0;
     this.playersPortionBetting=+this.cardsService.sendValues(1);
     this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
+    // in case that userPlayer is out of game
+    if(!(this.players[0].name==="Me")){
+      this.router.navigate(['/'])
+    }
     this.cards=this.cardsService.cardsFunction();
     this.playerCards=this.cardsService.playerCardsFunction();
     this.sufflingCards.sufflingCards(this.playerCards,this.cards,this.players.length);
     this.toCallDesicions();
+      
   }
 }
