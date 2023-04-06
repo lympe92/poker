@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { player } from 'src/app/shared/generate-players';
 
 @Component({
   selector: 'app-player',

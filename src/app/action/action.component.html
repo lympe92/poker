@@ -106,16 +106,16 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">{{playersPortionBetting}}</th>
-                <td>playersPortionBetting</td>
+                <th scope="row">Your Rank</th>
+                <td>{{onCheckRanks().playerRank}}</td>
               </tr>
               <tr>
-                <th scope="row">{{pot}}</th>
-                <td><h6>POT</h6></td>
+                <th scope="row">Biggest Stack</th>
+                <td><h6>{{onCheckRanks().firstPlayerChips}}</h6></td>
               </tr>
               <tr>
-                <th scope="row">{{onOverallChips()}}</th>
-                <td colspan="2">onOverallChips</td>
+                <th scope="row">Smallest Stack</th>
+                <td colspan="2">{{onCheckRanks().lastPlayerChips}}</td>
               </tr>
             </tbody>
           </table>         
@@ -126,24 +126,24 @@
           <div class="text-center col-12 col-md-8 ">
             <div class="row  g-2">
               <div class="col-3">
-                  <button class="btn btn-success p-2 w-100" type="button" ><h6>Min</h6></button>
+                  <button class="btn btn-success p-2 w-100" type="button" (click)="onRaiseNum(bigBlind)" [disabled]="playersPortionBetting>=bigBlind"><h6>Min</h6></button>
               </div>
               <div class="col-3">
-                  <button class="btn btn-success p-2 w-100" type="button" ><h6>3Bet</h6></button>
+                  <button class="btn btn-success p-2 w-100" type="button" (click)="onRaiseNum(bigBlind*3)" [disabled]="playersPortionBetting>=3*bigBlind"><h6>3Bet</h6></button>
               </div>
               <div class="col-3">
-                  <button class="btn btn-success p-2 w-100" type="button" ><h6>Pot</h6></button>
+                  <button class="btn btn-success p-2 w-100" type="button" (click)="onCalcPot()" [disabled]="onCalcTempPot()>=players[0].chips"><h6>Pot</h6></button>
               </div>
               <div class="col-3">
-                  <button class="btn btn-success p-2 w-100" type="button" ><h6>Max</h6></button>
+                  <button class="btn btn-success p-2 w-100" type="button" (click)="onRaiseNum(players[0].chips+players[0].temporaryBetting)"><h6>Max</h6></button>
               </div>
             </div>
           </div>
         </div>
         <div class="row w-100 d-flex justify-content-end mb-3 mt-2">
-          <input class="col-3 col-md-2 col-xxl-1" [(ngModel)]="onRaiseNum">
+          <input class="col-3 col-md-2 col-xxl-1" [(ngModel)]="raiseNum">
           <div class="col-9 col-md-8">
-            <input type="range" class="form-range" min="{{bigBlind+playersPortionBetting}}" max="{{players[0].chips}}" [(ngModel)]="onRaiseNum" step="20" #ref id="customRange3">
+            <input type="range" class="form-range" min="{{bigBlind+playersPortionBetting}}" max="{{players[0].chips+players[0].temporaryBetting}}" [(ngModel)]="raiseNum" step="20" #ref id="customRange3">
           </div>
         </div>
     <div class="row w-100 justify-content-end d-flex align-items-end">

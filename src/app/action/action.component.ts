@@ -1,4 +1,4 @@
-import {  Component,OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { card } from '../shared/card';
 import { CardsService } from '../shared/cards.service';
@@ -17,7 +17,7 @@ export class ActionComponent implements OnInit{
 
   constructor(public gamePlay:GamePlayService,private cpu:CpuPlayerDecisionsService, public player:playersService,public sufflingCards:SufflingCardsService,public cardsService:CardsService,private router:Router){ 
   }
-  onRaiseNum:number=0;
+  raiseNum:number=0;
   players!:player[];
   winners!:player[];
   cards:any[]=[];
@@ -57,7 +57,29 @@ export class ActionComponent implements OnInit{
     })
   return i;
   }
+  onCheckRanks(){
+    let player:any[]=[];
+    player=player.concat(this.players);
+    player.sort((a:any,b:any)=>b.chips-a.chips)
+    let playerRank=player.findIndex((x:any)=>x.name=="Me")+1;
+    let firstPlayerChips=player[0].chips;
+    let lastPlayerChips=player[player.length-1].chips;
+    return {firstPlayerChips,lastPlayerChips,playerRank};
+  }
 
+  onRaiseNum(num:number){
+    console.log(this.players[0].chips+this.players[0].temporaryBetting)
+    this.raiseNum=num;
+  }
+  onCalcTempPot(){
+    let temp:number=0;
+    this.players.forEach((x:player)=>{temp+=x.temporaryBetting})
+    return temp;
+  }
+  onCalcPot(){
+    this.raiseNum=this.pot+this.onCalcTempPot();
+  }
+  
   onFold(){
     console.log("onFold");
     this.players[0].inPortion=false;
@@ -259,6 +281,7 @@ export class ActionComponent implements OnInit{
       return ;
     }
     if(this.players[index].inPortion==false||this.players[index].chips==0){
+      this.players[index].toSpeak=false;
       this.activatePlayer(this.nextPlayer(index),this.playersToSpeak());
       return;
     }
@@ -291,7 +314,7 @@ export class ActionComponent implements OnInit{
     this.tableCards.length=0;
     this.winners.length=0;
     this.gameStatus='preFlop';
-    this.onRaiseNum=0;
+    this.raiseNum=0;
     this.playersPortionBetting=+this.cardsService.sendValues(1);
     this.players=this.player.nextPortBlinds(this.players,this.bigBlind,this.smallBlind);
     // in case that userPlayer is out of game
