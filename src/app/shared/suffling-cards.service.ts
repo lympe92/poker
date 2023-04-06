@@ -20,7 +20,6 @@ export class SufflingCardsService {
   }
 
   sufflingFlop(tableCards:any,cards:any){
-    console.log("sufflingFlop");
     for (let i = 0; i < 3; i++) {
       let j=Math.floor(Math.random() * this.arrayLength);
       tableCards.push(cards[j]);  
@@ -30,7 +29,6 @@ export class SufflingCardsService {
   }
 
   sufflingTurn(tableCards:any,cards:any){
-    console.log("sufflingTurn");
     let j=Math.floor(Math.random() * this.arrayLength);
     tableCards.push(cards[j]);  
     cards.splice(j,1);
@@ -38,7 +36,6 @@ export class SufflingCardsService {
   }
 
   sufflingRiver(tableCards:any,cards:any){
-    console.log("sufflingRiver");
     let j=Math.floor(Math.random() * this.arrayLength);
     tableCards.push(cards[j]);  
     cards.splice(j,1);

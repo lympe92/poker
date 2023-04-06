@@ -8,7 +8,6 @@ import { player } from "./generate-players";
 export class playersService {
   
   generatePlayers(numberOfPlayers:number,bigBlind:number,smallBlind:number,chips:number){
-    console.log("generatePlayers");
     let players:player[]=[{number:1,name:'Me',id:0,chips:chips,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,temporaryBetting:0,toSpeak:true,inPortion:true,bestHand:[]},
       {number:0,name:'Cpu Player 1',id:1,chips:chips,isDealer:false,isBigBlind:false,isSmallBlind:false,isActivePlayer:false,temporaryBetting:0,toSpeak:true,inPortion:true,bestHand:[]},
     ]; 
@@ -69,13 +68,11 @@ export class playersService {
     let dealerPlayer:number=NoOfDealer;
     // removes the goner players
     let zeroChipPlayers:player[]=[];
-    players.forEach((x:player)=>{if(x.chips==0){console.log("autos",x); zeroChipPlayers.push(x)}})
+    players.forEach((x:player)=>{if(x.chips==0){zeroChipPlayers.push(x)}})
     players = players.filter((x:any) => !zeroChipPlayers.includes(x));
 
     // next dealer
     NoOfDealer++;
-    console.log("NoOfDealer",NoOfDealer)    
-    console.log("players.length",(players.length-1))
     if(NoOfDealer>players.length-1){
       NoOfDealer=0;
     }

@@ -19,12 +19,10 @@ export class CardsService {
   }
  
   playerCardsFunction(){
-    console.log("playerCardsFunction");
     return this.playerCards;
   }
 
   cardsFunction(){
-    console.log("cardsFunction");
     return [       
       {name:"2",cardId:2,shape:"clubs",available:true,img:"assets/images/2-clubs.png"},
       {name:"2",cardId:2,shape:"diamonds",available:true,img:"assets/images/2-diamonds.png"},

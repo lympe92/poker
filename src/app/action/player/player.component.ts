@@ -10,6 +10,4 @@ export class PlayerComponent {
   @Input() num!: number;
   @Input() playerCards!: any;
 
-
-
 }

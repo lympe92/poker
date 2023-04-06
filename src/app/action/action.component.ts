@@ -68,7 +68,6 @@ export class ActionComponent implements OnInit{
   }
 
   onRaiseNum(num:number){
-    console.log(this.players[0].chips+this.players[0].temporaryBetting)
     this.raiseNum=num;
   }
   onCalcTempPot(){
@@ -176,8 +175,9 @@ export class ActionComponent implements OnInit{
     // deactivates current player and activates the next
     this.deactivatePlayer(activePLayerNumber);
     this.activatePlayer(this.nextPlayer(activePLayerNumber),this.playersToSpeak()); 
-    if(this.whoIsActive()!==0){
-    this.toCheckStatus(); }
+    // if(this.whoIsActive()!==0){
+    this.toCheckStatus(); 
+  // }
   }
   
   toCheckStatus(){
@@ -189,7 +189,10 @@ export class ActionComponent implements OnInit{
       }  
     });
     // in case that only one player is in portion
+    console.log("playersInPortion",this.playersInPortion())
+    console.log(this.playersInPortion()==1)
     if(this.playersInPortion()==1){
+   console.log("mpike")
       this.sumUpPot();
       this.findWinners();
       return;
@@ -207,18 +210,14 @@ export class ActionComponent implements OnInit{
           this.sufflingCards.sufflingTurn(this.tableCards,this.cards);
         }
         this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
-        console.log(this.gameStatus)
         if(this.gameStatus=="river"){
           this.sufflingCards.sufflingRiver(this.tableCards,this.cards);
         }
         this.gameStatus=this.gamePlay.checkStatus(this.gameStatus);
         if(this.gameStatus=="checkings"){
-          console.log("checkings APO")
           this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
           this.winners=this.gamePlay.isWinner(this.players);
-          console.log(this.winners)
           this.players.forEach((x:player)=>{this.winners.forEach((y:any)=>{if(x==y){x.chips+=(this.pot/this.winners.length)}})})
-          console.log("perase")
           setTimeout(()=> this.nextGame(),3000);
           return;
         }
@@ -245,11 +244,12 @@ export class ActionComponent implements OnInit{
       if(this.gameStatus=="checkings"){
         this.gamePlay.checkings(this.tableCards,this.playerCards,this.players.length,this.players);
         this.findWinners();
-        return;
       }
       // to find the smallBlind and activate it for starting next round
-      this.gamePlay.findSmallBlind(this.players);
-      this.toCallDesicions();
+      if(!(this.gameStatus=="checkings")){
+        this.gamePlay.findSmallBlind(this.players);
+        this.toCallDesicions();
+      }
     }
   }
 
