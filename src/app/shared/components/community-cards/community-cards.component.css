@@ -1,0 +1,12 @@
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0.5rem;
+}
+
+@media (max-width: 756px) {
+  .cards-container {
+    grid-column-gap: 0.1rem;
+  }
+}

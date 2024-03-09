@@ -1,0 +1,92 @@
+.player {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.game-info-button {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: white;
+  transform: scale(0.8);
+}
+
+.table-wrapper {
+  display: inline-grid;
+  grid-template-columns: repeat(22, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    " . . . . . . player1 player1 player1  . . .  player2 player2  player2 . . . . .  . . "
+    ".  player0 player0 player0 .  . community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards . . player3 player3  player3 . "
+    " . . . . . .  player5 player5 player5  . .  . player4 player4  player4 . . . . . . . ";
+
+  background-image: url("src/assets/images/poker-table.png");
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 80% 80%;
+  aspect-ratio: 2 / 1;
+  margin: auto;
+  max-width: 100%;
+}
+
+.test-element0 {
+  grid-area: player0;
+}
+
+.test-element1 {
+  grid-area: player1;
+}
+
+.test-element2 {
+  grid-area: player2;
+}
+
+.test-element3 {
+  grid-area: player3;
+}
+
+.test-element4 {
+  grid-area: player4;
+}
+
+.test-element5 {
+  grid-area: player5;
+}
+
+
+.community-cards {
+  grid-area: community-cards;
+  margin: auto;
+}
+
+@media (min-width: 576px) and (max-width: 756px) {
+  .game-info-button {
+    display: flex;
+  }
+
+  .table-wrapper {
+    grid-template-columns: repeat(22, 1fr) !important;
+    grid-template-areas:
+      " . . . . .  player1 player1 player1 player1  . . .  player2 player2  player2  player2 . . . .  . . "
+      ".  player0 player0 player0  player0  . community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards . player3 player3 player3  player3 . "
+      " . . . . .  player5  player5 player5 player5  . .  . player4 player4  player4  player4 . . . . . . " !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .game-info-button {
+    display: flex;
+  }
+
+  .table-wrapper {
+    grid-template-columns: repeat(19, 1fr) !important;
+    grid-template-areas:
+      "  . . . .  player1 player1 player1 player1  .  .  player2 player2  player2  player2 . . . .  .  "
+      "  player0 player0 player0  player0  . community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards community-cards . player3 player3 player3  player3  "
+      "  . . . .  player5  player5 player5 player5  .   . player4 player4  player4  player4 . . . . .  " !important;
+  }
+}

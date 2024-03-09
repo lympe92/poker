@@ -1,32 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { ActionComponent } from './action/action.component';
+import { ActionComponent } from './pages/action/action.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
-import { StartingScreenComponent } from './starting-screen/starting-screen.component';
-import { PlayerComponent } from './action/player/player.component';
-import { ChipsComponent } from './action/chips/chips.component';
+import { RouterModule } from '@angular/router';
+import { StartingScreenComponent } from './pages/starting-screen/starting-screen.component';
+import { appRoutes } from './app.routes';
+import { SharedModule } from './shared/components/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-const appRoutes: Routes = [
-  {path:'', component:StartingScreenComponent},
-  {path:'action', component:ActionComponent},
-  {path:'**', component:StartingScreenComponent}
-]
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ActionComponent,
     StartingScreenComponent,
-    PlayerComponent,
-    ChipsComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

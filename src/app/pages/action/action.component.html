@@ -1,0 +1,21 @@
+<div class="w-full h-full flex flex-col justify-between p-4">
+  {{players$|async}}
+  <div class="table-wrapper text-center">
+    <app-player
+      *ngFor="let player of (players$ | async); let i = index"
+      class="player test-element{{ i }}"
+      [player]="player"
+    ></app-player>
+
+    <app-community-cards class="community-cards"></app-community-cards>
+  </div>
+
+  <button
+    mat-mini-fab
+    class="game-info-button"
+    (click)="onOpenGameInfoDialog()"
+  >
+    <mat-icon>info</mat-icon>
+  </button>
+  <app-footer [player]="(userPlayer$ | async)"></app-footer>
+</div>

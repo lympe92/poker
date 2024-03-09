@@ -1,0 +1,6 @@
+<div class="cards-container">
+  <img
+    *ngFor="let card of communityCards$ | async"
+    src="{{ card.img }}"
+  />
+</div>

@@ -1,4 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body{
-    background-color: #e4dabb;
+:root {
+  --text-multiplier: 1;
 }
+
+body {
+  background-color: #e4dabb;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  font-size: calc(2.125rem * var(--text-multiplier));
+}
+
+h2 {
+  font-size: calc(1.875rem * var(--text-multiplier));
+}
+
+h3 {
+  font-size: calc(1.5rem * var(--text-multiplier));
+}
+
+h4 {
+  font-size: calc(1.25rem * var(--text-multiplier));
+}
+
+h5 {
+  font-size: calc(1.125rem * var(--text-multiplier));
+}
+
+h6 {
+  font-size: calc(1rem * var(--text-multiplier));
+}
+
+p {
+  font-size: calc(1em * var(--text-multiplier));
+}
+
+@media only screen and (max-width: 770px) {
+    :root {
+        --text-multiplier: 0.8;
+      }
+   }
+
+   @media only screen and (max-width: 576px) {
+    :root {
+        --text-multiplier: 0.6;
+      }
+   }
