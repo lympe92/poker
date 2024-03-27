@@ -1,0 +1,18 @@
+<div class="pot-container" *ngIf="pot">
+  <img
+    src="assets/images/chip500.png"
+    class="d-flex chip"
+    *ngFor="let item of [].constructor((chips$ | async)?.chip500)"
+  />
+  <img
+    src="assets/images/chip100.png"
+    class="d-flex chip"
+    *ngFor="let item of [].constructor((chips$ | async)?.chip100)"
+  />
+  <img
+    src="assets/images/chip10.png"
+    class="d-flex chip"
+    *ngFor="let item of [].constructor((chips$ | async)?.chip10)"
+  />
+  <span> {{ pot }}</span>
+</div>

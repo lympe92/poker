@@ -1,0 +1,8 @@
+.close-button {
+  background-color: white;
+  position: fixed;
+  z-index: 1000;
+  margin-left: -15px;
+  margin-top: -15px;
+  transform: scale(0.7);
+}

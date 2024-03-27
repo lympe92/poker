@@ -1,10 +1,8 @@
-import { CardShapes } from "./card-shapes";
-
+import { CardShapes } from './card-shapes';
 
 export interface Card extends CardShapes {
-
-  name:string
-        cardId:number 
-        available:boolean;
-        img:string
+  name: string;
+  cardId: number;
+  available: boolean;
+  img: string;
 }

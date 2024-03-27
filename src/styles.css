@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #e4dabb;
+  background-color: #3c4150;
 }
 
 html,
@@ -18,6 +18,19 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-slider {
+  --mdc-slider-handle-color: #4b63b4 !important;
+  --mdc-slider-focus-handle-color: #4b63b4 !important;
+  --mdc-slider-hover-handle-color: #4b63b4 !important;
+  --mdc-slider-active-track-color: #4b63b4 !important;
+  --mdc-slider-inactive-track-color: #4b63b4 !important;
+  --mdc-slider-with-tick-marks-active-container-color: #fff;
+  --mdc-slider-with-tick-marks-inactive-container-color: #4b63b4 !important;
+  --mat-mdc-slider-ripple-color: #4b63b4 !important;
+  --mat-mdc-slider-hover-ripple-color: rgba(103, 58, 183, 0.05);
+  --mat-mdc-slider-focus-ripple-color: rgba(103, 58, 183, 0.2);
 }
 
 h1 {
@@ -45,17 +58,25 @@ h6 {
 }
 
 p {
-  font-size: calc(1em * var(--text-multiplier));
+  font-size: calc(1rem * var(--text-multiplier));
+}
+
+span{
+   font-size: calc(1rem * var(--text-multiplier));
+}
+
+.game-info-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: transparent;
 }
 
 @media only screen and (max-width: 770px) {
-    :root {
-        --text-multiplier: 0.8;
-      }
-   }
+  :root {
+    --text-multiplier: 0.8;
+  }
+}
 
-   @media only screen and (max-width: 576px) {
-    :root {
-        --text-multiplier: 0.6;
-      }
-   }
+@media only screen and (max-width: 576px) {
+  :root {
+    --text-multiplier: 0.6;
+  }
+}

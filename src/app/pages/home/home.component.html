@@ -1,0 +1,129 @@
+<div class="page-wrapper items-center justify-center">
+  <form class="form-content" [formGroup]="signupForm">
+    <h2 class="form-title">Select game options</h2>
+    <div class="form-control-container">
+      <label class="form-label"><h3>Players</h3></label>
+      <div class="flex flex-row grow gap-x-4">
+        <mat-slider
+          class="grow"
+          [max]="playersOptions.max"
+          [min]="playersOptions.min"
+          [step]="playersOptions.step"
+          [discrete]="playersOptions.discrete"
+          [showTickMarks]="playersOptions.showTickMarks"
+        >
+          <input
+            matSliderThumb
+            formControlName="numberOfPlayers"
+            [value]="signupForm.value.numberOfPlayers"
+          />
+        </mat-slider>
+        <input
+          class="form-control-number-input"
+          [max]="playersOptions.max"
+          [min]="playersOptions.min"
+          matInput
+          formControlName="numberOfPlayers"
+          [value]="signupForm.value.numberOfPlayers"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <div class="form-control-container">
+      <label class="form-label"><h3>Stake</h3></label>
+      <div class="flex flex-row grow gap-x-4">
+        <mat-slider
+          class="grow"
+          [max]="stakeOptions.max"
+          [min]="stakeOptions.min"
+          [step]="stakeOptions.step"
+          [discrete]="stakeOptions.discrete"
+          [showTickMarks]="stakeOptions.showTickMarks"
+        >
+          <input
+            matSliderThumb
+            formControlName="stake"
+            [value]="signupForm.value.stake"
+          />
+        </mat-slider>
+        <input
+          matInput
+          class="form-control-number-input"
+          [max]="stakeOptions.max"
+          [min]="stakeOptions.min"
+          formControlName="stake"
+          [value]="signupForm.value.stake"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <div class="form-control-container">
+      <label class="form-label"><h3>Chips</h3></label>
+      <div class="flex flex-row grow gap-x-4">
+        <mat-slider
+          class="grow"
+          [max]="chipsOptions.max"
+          [min]="chipsOptions.min"
+          [step]="chipsOptions.step"
+          [discrete]="chipsOptions.discrete"
+          [showTickMarks]="chipsOptions.showTickMarks"
+        >
+          <input
+            matSliderThumb
+            formControlName="chips"
+            [value]="signupForm.value.chips"
+          />
+        </mat-slider>
+        <input
+          matInput
+          class="form-control-number-input"
+          [max]="chipsOptions.max"
+          [min]="chipsOptions.min"
+          formControlName="chips"
+          [value]="signupForm.value.chips"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <div class="form-control-container">
+      <label class="form-label"><h3>Time (sec)</h3></label>
+      <div class="flex flex-row grow gap-x-4">
+        <mat-slider
+          class="grow"
+          [max]="timeOptioms.max"
+          [min]="timeOptioms.min"
+          [step]="timeOptioms.step"
+          [discrete]="timeOptioms.discrete"
+          [showTickMarks]="timeOptioms.showTickMarks"
+        >
+          <input
+            matSliderThumb
+            formControlName="time"
+            [value]="signupForm.value.time"
+          />
+        </mat-slider>
+        <input
+          matInput
+          class="form-control-number-input"
+          [max]="timeOptioms.max"
+          [min]="timeOptioms.min"
+          formControlName="time"
+          [value]="signupForm.value.time"
+          type="number"
+        />
+      </div>
+    </div>
+
+    <button
+      type="button"
+      mat-flat-button
+      class="start-button"
+      (click)="onStartGame()"
+    >
+      Start
+    </button>
+  </form>
+</div>

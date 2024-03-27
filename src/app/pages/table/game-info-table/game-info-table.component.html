@@ -1,0 +1,23 @@
+<div class="flex flex-col info-container">
+  <div class="flex flex-row info-row font-bold">Game Information</div>
+  <div class="flex flex-row info-row justify-between items-center">
+    <div class="info-name">Your Rank</div>
+    <div class="info-value">
+      {{ (playerRank$ | async)?.rank }} / {{ (playerRank$ | async)?.total }}
+    </div>
+  </div>
+  <div class="flex flex-row info-row justify-between items-center">
+    <div class="info-name">Biggest Stack</div>
+    <div class="info-value">{{ (players$ | async | biggestStack)?.chips }}</div>
+  </div>
+  <div class="flex flex-row info-row justify-between items-center">
+    <div class="info-name">Smallest Stack</div>
+    <div class="info-value">
+      {{ (players$ | async | smallestStack)?.chips }}
+    </div>
+  </div>
+  <div class="flex flex-row info-row justify-between items-center">
+    <div class="info-name">Average Stack</div>
+    <div class="info-value">{{ players$ | async | averageChips : pot }}</div>
+  </div>
+</div>

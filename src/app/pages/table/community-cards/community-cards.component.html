@@ -1,0 +1,25 @@
+<div class="cards-container">
+  <img
+    *ngFor="let card of (communityCards$ | async)?.flop"
+    [src]="(portionPhase$ | async) !== 'preFlop' ? card.img : secretCard"
+  />
+  <img
+    *ngIf="(communityCards$ | async)?.turn as card"
+    [src]="
+      (portionPhase$ | async) === 'preFlop' ||
+      (portionPhase$ | async) === 'flop'
+        ? secretCard
+        : card.img
+    "
+  />
+  <img
+    *ngIf="(communityCards$ | async)?.river as card"
+    [src]="
+      (portionPhase$ | async) === 'preFlop' ||
+      (portionPhase$ | async) === 'flop' ||
+      (portionPhase$ | async) === 'turn'
+        ? secretCard
+        : card.img
+    "
+  />
+</div>

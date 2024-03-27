@@ -1,13 +1,11 @@
-
 import { Routes } from '@angular/router';
-import { ActionComponent } from './pages/action/action.component';
-import { StartingScreenComponent } from './pages/starting-screen/starting-screen.component';
+import { TableComponent } from './pages/table/table.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const appRoutes: Routes = [
-  {path:'', component:StartingScreenComponent},
-  {path:'action', component:ActionComponent},
-  {path:'**', component:StartingScreenComponent}
-]
+  { path: '', component: HomeComponent },
+  { path: 'table', component: TableComponent },
+  { path: '**', redirectTo: '' },
+];
 
-
-export class AppModule { }
+export class AppModule {}

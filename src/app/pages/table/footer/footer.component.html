@@ -1,0 +1,99 @@
+<div *ngIf="player" class="footer flex">
+  <div class="info-table-container">
+    <app-game-info-table></app-game-info-table>
+  </div>
+
+  <div
+    class="actions-container"
+    *ngIf="player?.id === (activePlayer$ | async)?.id"
+  >
+    <div class="actions-pot-buttons justify-end gap-x-4">
+      <button
+        type="button"
+        mat-flat-button
+        class="bet-button"
+        (click)="raiseNum = chipsToSeeNextCard + bigBlind - player.stageBet"
+      >
+        Min
+      </button>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="bet-button"
+        (click)="
+          raiseNum =
+            player.chips > chipsToSeeNextCard * 3 - player.stageBet
+              ? chipsToSeeNextCard * 3 - player.stageBet
+              : player.chips
+        "
+        [disabled]="chipsToSeeNextCard === 0"
+      >
+        3Bet
+      </button>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="bet-button"
+        (click)="
+          raiseNum = player.chips > pot ? pot - player.stageBet : player.chips
+        "
+      >
+        Pot
+      </button>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="bet-button"
+        (click)="raiseNum = player.chips"
+      >
+        Max
+      </button>
+    </div>
+
+    <div class="actions-slider-container gap-x-4 justify-content-end mb-3 mt-2">
+      <input class="actions-slider-text-input" [(ngModel)]="raiseNum" />
+
+      <input
+        type="range"
+        class="actions-slider-range grow"
+        [min]="chipsToSeeNextCard + bigBlind"
+        [max]="player.chips"
+        [(ngModel)]="raiseNum"
+        step="20"
+        id="customRange3"
+      />
+    </div>
+    <div
+      class="actions-decisions-container gap-x-4 justify-content-start align-items-end"
+    >
+      <button
+        type="button"
+        mat-flat-button
+        class="w-1/3 action-button"
+        (click)="onFold()"
+      >
+        Fold
+      </button>
+      <button
+        type="button"
+        mat-flat-button
+        class="w-1/3 action-button"
+        (click)="onCall()"
+      >
+        <span *ngIf="chipsToSeeNextCard === 0">Check</span>
+        <span *ngIf="chipsToSeeNextCard !== 0">Call</span>
+      </button>
+      <button
+        type="button"
+        mat-flat-button
+        class="w-1/3 action-button"
+        (click)="onRaise()"
+      >
+        Raise {{ raiseNum + player.stageBet }}
+      </button>
+    </div>
+  </div>
+</div>
